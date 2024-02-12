@@ -7,7 +7,22 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container:{
+      center: true,
+      screens: {
+        sm: "90%",
+        md: "90%",
+        lg: "1024px",
+        xl: "1280px",
+        '2xl': "1360px"
+      }
+    },
     extend: {
+      minHeight: {
+        '60vh': '60vh',
+        '70vh': '70vh',
+        '80vh': '80vh',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,6 +30,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };
 export default config;
