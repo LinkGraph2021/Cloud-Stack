@@ -37,7 +37,7 @@ export default function BasicForm({formObj}:FormArr) {
     const router = useRouter();
 
     const [handleButton, setHandleButton] = useState(false);
-    const handleClick = event => {
+    const handleClick = (event:any) => {
         // 👇️ toggle class on click
         event.currentTarget.parentElement.classList.toggle('expandInput');
         setHandleButton(true);
