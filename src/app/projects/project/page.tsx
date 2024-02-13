@@ -2,6 +2,13 @@ import BasicForm from '@/components/BasicForm';
 import HostingLists from '@/components/HostingLists/HostingLists';
 
 export default function Home() {
+  let formElements =[
+    {
+      typeI:'change',
+      buttonT: 'Update Content',
+      textI: 'edit',
+    }
+  ]
   let hostingElements = [
     {
       hosting: 'Amazon',
@@ -18,18 +25,18 @@ export default function Home() {
         <div>
           <h1>Project Name: Search Atlas Cloud sites</h1>
           <BasicForm
-            formElements={
-              [
+            formObj={{
+              formElements:[
                 {
                   typeI:'change',
                   buttonT: 'Update Content',
                   textI: 'edit',
                 }
-              ]
-            }
-            formBack
-            formButton='Send'
-            toggleButton/>
+              ],
+              formBack: true,
+              formButton:'Send',
+              toggleButton: true
+            }}/>
         </div>
         <div>
           <h2>Connect to Hostings</h2>

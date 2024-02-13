@@ -8,9 +8,9 @@ export default function Home() {
                 <div>
                     <h1>Connect to Amazon</h1>
                     <BasicForm
-                        formInline
-                        formElements={
-                            [
+                        formObj={{
+                            formInline: true,
+                            formElements: [
                                 {
                                     typeI: 'input',
                                     inputT: 'text',
@@ -23,10 +23,10 @@ export default function Home() {
                                     textI: 'Info needed 1',
                                     placeH: 'Field.'
                                 }
-                            ]
-                        }
-                        formBack
-                        formButton='Try Connection' />
+                            ],
+                            formBack: true,
+                            formButton:'Try Connection'
+                        }}/>
                 </div>
             </div>
         </main>

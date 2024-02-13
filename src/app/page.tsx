@@ -7,8 +7,8 @@ export default function Home() {
       <div className="flex flex-col justify-center min-h-80vh py-5">
         <h1>Log In</h1>
         <BasicForm
-          formElements={
-            [
+          formObj={{
+            formElements:[
               {
                 typeI:'input',
                 inputT: 'username',
@@ -22,9 +22,9 @@ export default function Home() {
                 legend: 'Forgot Password.',
                 placeH: 'Field.'
               }
-            ]
-          }
-          formButton='Login'/>
+            ],
+            formButton:'Login'
+          }}/>
       </div>
     </main>
   );

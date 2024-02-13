@@ -1,19 +1,24 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import styles from './Hosting.module.scss'
 import Link from 'next/link';
-interface Hosting {
-    hosting: string;
+import PropTypes from 'prop-types';
+
+export interface Hosting {
+    hosting?: string;
     isSetup?: boolean;
 }
+export interface HostingArr {
+    hostingElements: Hosting[];
+}
   
-type HostingObj = Hosting[];
-export default function Projects({ hostingElements } :HostingObj) {
+//type HostingArr = Hosting[];
+export default function Projects({hostingElements} :HostingArr) {
     return (
         <div className='flex flex-col w-full gap-7 mt-6'>
             {hostingElements.map((HostingE:any,i:number) => {
                 {
                     return(
-                        <div key={HostingE.nameP + i} className={`${styles.hosting} flex flex-col gap-2`}>
+                        <div key={HostingE.hosting + i} className={`${styles.hosting} flex flex-col gap-2`}>
                             <div className={`${styles.hostingTop} flex gap-6 items-center`}>
                                 <div className={`${styles.hostingName} ${HostingE.isSetup ? 'dataTrue':'dataFalse'} min-w-44`}>
                                     <strong>{HostingE.hosting}</strong> <span className={``}>{HostingE.isSetup ? 'Live':'Not Set Up'}</span>

@@ -7,9 +7,9 @@ export default function Upload() {
       <div className="flex flex-col justify-center min-h-80vh py-5">
         <h1>Create New Project</h1>
         <BasicForm
-          formInline
-          formElements={
-            [
+          formObj={{
+            formInline: true,
+            formElements:[
               {
                 typeI: 'input',
                 inputT: 'text',
@@ -87,9 +87,9 @@ export default function Upload() {
                 placeH: 'Field.',
                 rows: 5
               },
-            ]
-          }
-          formButton='Create Project' />
+            ],
+            formButton:'Create Project'
+          }} />
       </div>
     </main>
   );
