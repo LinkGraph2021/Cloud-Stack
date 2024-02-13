@@ -87,7 +87,7 @@ export default function BasicForm({formObj}:FormArr) {
                                     case 'double':
                                         return (
                                             <div key={i} className={`${formObj.formInline ? 'flex flex-col flex-wrap gap-4':''}`}>
-                                                {formE.inputs.map((inputW,i) => {
+                                                {formE.inputs.map((inputW:any,i:number) => {
                                                     {
                                                         return(
                                                             <div key={inputW.textI1} className='flex items-center gap-20'>
