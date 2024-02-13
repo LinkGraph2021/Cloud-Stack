@@ -12,7 +12,6 @@ export interface ProjectArr {
 }
 
 export default function Projects({projectsElement} :ProjectArr) {
-    console.log( projectsElement );
     return (
         <div className='flex flex-col w-full gap-7'>
             {projectsElement.map((projectE:any,i:number) => {
