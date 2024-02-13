@@ -1,14 +1,18 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import styles from './Projects.module.scss'
 import Link from 'next/link';
-interface Project {
-    nameP: string;
-    contentStatus?: boolean;
-    hostings?: string[];
-  }
-  
-type ProjectObj = Project[];
-export default function Projects({ projectsElement } :ProjectObj) {
+
+export interface Project {
+    nameP: string,
+    contentStatus?: boolean,
+    hostings?: Array<any>
+}
+export interface ProjectArr {
+    projectsElement: Project[];
+}
+
+export default function Projects({projectsElement} :ProjectArr) {
+    console.log( projectsElement );
     return (
         <div className='flex flex-col w-full gap-7'>
             {projectsElement.map((projectE:any,i:number) => {
@@ -29,8 +33,8 @@ export default function Projects({ projectsElement } :ProjectObj) {
                                 <div className={`${projectE.contentStatus ? 'dataTrue':'dataFalse'} ${styles.projectBottom} projectContent`}>
                                     Content: <span>{projectE.contentStatus ? 'Added':'Not Added'}</span>
                                 </div>
-                                <div className={`${projectE.hostings ? 'dataTrue':'dataFalse'} ${styles.projectBottom} projectHosting`}>
-                                    Hosting <span>{projectE.hostings ? projectE.hostings:'Not Live'}</span>
+                                <div className={`${projectE.Projects ? 'dataTrue':'dataFalse'} ${styles.projectBottom} projectProject`}>
+                                    Project <span>{projectE.hostings ? projectE.hostings:'Not Live'}</span>
                                 </div>
                             </div>
                         </div>
