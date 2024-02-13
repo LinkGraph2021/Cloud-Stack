@@ -59,11 +59,11 @@ export default function BasicForm({ titleH = '', descriptionH = '', formElements
                                     switch (formElements[keyName].typeI) {
                                         case 'section':
                                             return(
-                                                <h2 className='mt-6'>{formElements[keyName].textI}</h2>
+                                                <h2 key={formElements[keyName].textI} className='mt-6'>{formElements[keyName].textI}</h2>
                                             );
                                         case 'input':
                                             return (
-                                                <div key={keyName + i} className={`${formInline ? 'flex items-center gap-4':''}`}>
+                                                <div key={formElements[keyName].textI} className={`${formInline ? 'flex items-center gap-4':''}`}>
                                                     <label htmlFor={formElements[keyName].textI.replaceAll(' ', '-')} className={`${formInline ? 'min-w-36':''} block font-medium leading-6 text-gray-900`}>
                                                         {formElements[keyName].textI}
                                                     </label>
@@ -84,11 +84,11 @@ export default function BasicForm({ titleH = '', descriptionH = '', formElements
                                             );
                                         case 'double':
                                             return (
-                                                <div key={keyName + i} className={`${formInline ? 'flex flex-col flex-wrap gap-4':''}`}>
+                                                <div key={i} className={`${formInline ? 'flex flex-col flex-wrap gap-4':''}`}>
                                                     {formElements[keyName].inputs.map((inputW,i) => {
                                                         {
                                                             return(
-                                                                <div className='flex items-center gap-20'>
+                                                                <div key={inputW.textI1} className='flex items-center gap-20'>
                                                                     {inputW.textI1 &&
                                                                         <div className='flex items-center'>
                                                                             <label htmlFor={inputW.textI1.replaceAll(' ', '-')} className={`${formInline ? 'min-w-36':''} block font-medium leading-6 text-gray-900`}>
@@ -110,7 +110,7 @@ export default function BasicForm({ titleH = '', descriptionH = '', formElements
                                                                         </div>
                                                                     }
                                                                     {inputW.textI2 &&
-                                                                        <div className='flex items-center'>
+                                                                        <div key={inputW.textI2} className='flex items-center'>
                                                                             <label htmlFor={inputW.textI2.replaceAll(' ', '-')} className={`${formInline ? 'min-w-36':''} block font-medium leading-6 text-gray-900`}>
                                                                                 {inputW.textI2}
                                                                             </label>
@@ -137,7 +137,7 @@ export default function BasicForm({ titleH = '', descriptionH = '', formElements
                                             );
                                         case 'textarea' :
                                             return(
-                                                <div className="">
+                                                <div key={formElements[keyName].textI} className="">
                                                     <label htmlFor={formElements[keyName].textI.replaceAll(' ', '-')} className="block font-medium leading-6 text-gray-900">
                                                         {formElements[keyName].textI}
                                                     </label>
@@ -153,11 +153,9 @@ export default function BasicForm({ titleH = '', descriptionH = '', formElements
                                                     {/* <p className="mt-3 leading-6 text-gray-600">Write a few sentences about yourself.</p> */}
                                                 </div>
                                             );
-                                        case 'select':
-                                            return ('asd');
                                         case 'change':
                                             return (
-                                                <div key={keyName + i} className="min-w-10 expandible">
+                                                <div key={formElements[keyName].textI} className="min-w-10 expandible">
                                                     <button onClick={handleClick}
                                                         type="button"
                                                         className="rounded-md bg-white px-2.5 py-1.5 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
