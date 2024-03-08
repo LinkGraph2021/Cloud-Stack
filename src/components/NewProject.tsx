@@ -16,7 +16,6 @@ export default function NewProject() {
         var duplicateObj = parentE.getElementsByClassName('inputRow');
         var duplicateI = parentE.getElementsByClassName('inputSingle')
         var duplicateLength = duplicateObj.length+1;
-        if()
         
         const clone = duplicateObj[0].cloneNode(true);
         clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)[0-9]/gi, "$1$2"+duplicateLength);
