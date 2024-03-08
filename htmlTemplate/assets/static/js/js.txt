@@ -1,0 +1,35 @@
+document.addEventListener("DOMContentLoaded", function() {
+    // Get all accordions in the page
+    var accordions = document.querySelectorAll(".accordion");
+
+    accordions.forEach(function(accordion) {
+        // For each accordion, get all header/title elements (assuming they are direct children with class 'card')
+        var cards = accordion.querySelectorAll(".card");
+        
+        cards.forEach(function(card) {
+            // For each card, attach a click event to the header/title
+            var header = card.querySelector(".card-header");
+            if (header) {
+                header.addEventListener("click", function() {
+                    // Toggle the current content panel
+                    var content = card.querySelector(".card-body");
+                    if (content.style.display === "none" || !content.style.display) {
+                        content.style.display = "block";
+                    } else {
+                        content.style.display = "none";
+                    }
+
+                    // Close other content panels
+                    cards.forEach(function(innerCard) {
+                        if (innerCard !== card) {
+                            var innerContent = innerCard.querySelector(".card-body");
+                            if (innerContent) {
+                                innerContent.style.display = "none";
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
+});
