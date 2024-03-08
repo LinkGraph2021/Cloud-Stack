@@ -1,9 +1,11 @@
 
 'use client';
-import {useState} from 'react'
+import {useState, FormEvent} from 'react'
 import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
 import TextA from '@/components/FormFields/TextA';
+import fs from 'fs';
+
 
 export default function NewProject() {
     const router = useRouter();
@@ -14,21 +16,71 @@ export default function NewProject() {
         var parentE = event.currentTarget.parentElement;
         var row = parentE.getElementsByClassName('repeatableWrap');
         var duplicateObj = parentE.getElementsByClassName('inputRow');
-        var duplicateI = parentE.getElementsByClassName('inputSingle')
+        var duplicateI = parentE.getElementsByClassName('inputSingle');
         var duplicateLength = duplicateObj.length+1;
-        
+
         const clone = duplicateObj[0].cloneNode(true);
-        clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+        if( duplicateI.length > 0 ){
+            duplicateLength = duplicateI.length;
+        }
+        //console.log( duplicateI );
+        if( duplicateI.length > 0 ){
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
+        }else{
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+        }
         clone.id = duplicateObj[0].id+duplicateLength;
         row[0].appendChild(clone);
         setHandleButton(true);
+    };
 
-        console.log( duplicateObj );
-      };
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [error, setError] = useState<string | null>(null)
+ 
+    async function onSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        var fs = require('fs');
+
+        var fileName = 'path/to/file';
+        var stream = fs.createWriteStream(fileName);
+
+        stream.once('open', function(fd) {
+        var html = buildHtml();
+
+        stream.end(html);
+        });
+
+        // event.preventDefault()
+        // setIsLoading(true)
+        // setError(null) // Clear previous errors when a new request starts
+    
+        // try {
+        // const formData = new FormData(event.currentTarget)
+        // const response = await fetch('/api/submit', {
+        //     method: 'POST',
+        //     body: formData,
+        // })
+    
+        // if (!response.ok) {
+        //     throw new Error('Failed to submit the data. Please try again.')
+        // }
+    
+        // // Handle response if necessary
+        // const data = await response.json()
+        // // ...
+        // } catch (error) {
+        // // Capture the error message to display to the user
+        // setError(error.message)
+        //     console.error(error)
+        // } finally {
+        //     setIsLoading(false)
+        // }
+    }
 
     return (
-        <div className='flex flex-col gap-28'>
-            <form className='w-full flex flex-col justify-center'>
+        <div className='flex flex-col gap-28 pb-44'>
+            <form className='w-full flex flex-col justify-center' onSubmit={onSubmit}>
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
@@ -38,7 +90,7 @@ export default function NewProject() {
                                     typeI: 'input',
                                     inputT: 'text',
                                     textI: 'Name of Project',
-                                    placeH: 'Field.',
+                                    placeH: 'Test1',
                                     formInline: true
                                 }}
                             />
@@ -49,7 +101,7 @@ export default function NewProject() {
                                         typeI: 'input',
                                         inputT: 'text',
                                         textI: 'Main Header (H1)',
-                                        placeH: 'Field.',
+                                        placeH: 'Tester H1',
                                         formInline: true
                                     }}
                                 />
@@ -59,7 +111,7 @@ export default function NewProject() {
                                         typeI: 'input',
                                         inputT: 'text',
                                         textI: 'Site URL To Link To',
-                                        placeH: 'Field.',
+                                        placeH: 'test',
                                         formInline: true
                                     }}
                                 />
@@ -70,7 +122,7 @@ export default function NewProject() {
                                     typeI: 'input',
                                     inputT: 'text',
                                     textI: 'Keywords',
-                                    placeH: 'Field.',
+                                    placeH: 'test,tester,testing',
                                     formInline: true
                                 }}
                             />
@@ -79,7 +131,7 @@ export default function NewProject() {
                                 fieldElement={{
                                     typeI: 'textarea',
                                     textI: 'Meta Description (150 Characters)',
-                                    placeH: 'Field.',
+                                    placeH: 'testing this field',
                                     rows: 5
                                 }}
                             />
@@ -93,7 +145,7 @@ export default function NewProject() {
                                                 typeI: 'input',
                                                 inputT: 'text',
                                                 textI: 'Question 1',
-                                                placeH: 'Field.',
+                                                placeH: 'test is okay',
                                                 formInline: true
                                             }}
                                         />
@@ -103,7 +155,7 @@ export default function NewProject() {
                                                 typeI: 'input',
                                                 inputT: 'text',
                                                 textI: 'Answer 1',
-                                                placeH: 'Field.',
+                                                placeH: 'checking',
                                                 formInline: true
                                             }}
                                         />
@@ -127,7 +179,7 @@ export default function NewProject() {
                                                 typeI: 'input',
                                                 inputT: 'text',
                                                 textI: 'Video 1',
-                                                placeH: 'Field.',
+                                                placeH: 'https://www.youtube.com/embed/f4igJfT6iU0?si=7PckjR1-tDCLnq90?rel=0&amp;&amp;showinfo=0&amp;autoplay=0&amp;loop=0',
                                                 formInline: true
                                             }}
                                         />
@@ -149,7 +201,7 @@ export default function NewProject() {
                                     typeI: 'input',
                                     inputT: 'text',
                                     textI: 'Address',
-                                    placeH: 'Field.',
+                                    placeH: 'street test 1, #9999',
                                     formInline: true
                                 }}
                             />
@@ -165,7 +217,7 @@ export default function NewProject() {
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 1',
-                                                    placeH: 'Field.',
+                                                    placeH: '/testing',
                                                     formInline: true
                                                 }}
                                             />
@@ -177,7 +229,7 @@ export default function NewProject() {
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 2',
-                                                    placeH: 'Field.',
+                                                    placeH: '/tester',
                                                     formInline: true
                                                 }}
                                             />
@@ -188,8 +240,8 @@ export default function NewProject() {
                                     fieldElement={{
                                         typeI: 'input',
                                         inputT: 'text',
-                                        textI: 'Address',
-                                        placeH: 'Field.',
+                                        textI: 'Company Link',
+                                        placeH: 'https://test.com',
                                         formInline: true
                                     }}
                                 />
@@ -211,16 +263,18 @@ export default function NewProject() {
                         Back
                     </button>
                     <button
+                        disabled={isLoading}
                         type="submit"
                         className="rounded-md border-2 border-indigo-600 px-3 py-2 font-semibold text-indigo-600 shadow-sm hover:text-white hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
-                        Save
+                        {isLoading ? 'Saving...' : 'Save'}
                     </button>
                     <button
+                        disabled={isLoading}
                         type="submit"
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
-                        Save & Export
+                        {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
                     </button>
                 </div>
             </form>
