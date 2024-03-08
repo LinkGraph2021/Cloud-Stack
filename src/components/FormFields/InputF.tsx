@@ -22,7 +22,6 @@ export default function InputF( {fieldElement}:InputObj ) {
             </label>
             <div className="mt-1">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    {fieldElement.prev && <span className="flex select-none items-center pl-3 text-gray-400 sm:text-sm">workcation.com/</span>}
                     <input
                         type={fieldElement.inputT}
                         name={fieldElement.textI.replaceAll(' ', '-')}
