@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
 import TextA from '@/components/FormFields/TextA';
 import { createHtml } from '@/app/actions'
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 const initialState = {
     message: '',
@@ -48,8 +50,6 @@ export default function NewProject() {
         row[0].appendChild(clone);
 
         
-
-        
         if( duplicateObj[0].id.includes('faq') ){
             setHandleFaq( duplicateObj.length );
         }else if( duplicateObj[0].id.includes('video') ){
@@ -58,7 +58,7 @@ export default function NewProject() {
             setHandleLink( duplicateObj.length*2 );
         }
 
-        console.log( lengthT );
+        //console.log( lengthT );
         setHandleButton(true);
     };
 
@@ -66,6 +66,16 @@ export default function NewProject() {
     const [error, setError] = useState<string | null>(null)
 
     const [state, formAction] = useFormState(createHtml, initialState)
+
+    const handleDownload = async () => {
+        const response = await fetch('/api/file');
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'test.html';
+        link.click();
+    };
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
@@ -304,6 +314,11 @@ export default function NewProject() {
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
                         {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
+                    </button>
+                    <button
+                    type="button"
+                    onClick={handleDownload} >
+                        Download
                     </button>
                 </div>
             </form>

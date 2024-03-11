@@ -34,5 +34,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/tmp/*
-!/tmp/test.html
+/src/app/htmls/*
+!/src/app/htmls/test.html
