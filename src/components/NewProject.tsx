@@ -10,12 +10,20 @@ import { createHtml } from '@/app/actions'
 const initialState = {
     message: '',
 }
+var lengthT = {
+    faqC: 1,
+    videoC: 1,
+    footerC: 1
+};
 
 
 export default function NewProject() {
     const router = useRouter();
 
     const [handleButton, setHandleButton] = useState(false);
+    const [handleFaq, setHandleFaq] = useState(1);
+    const [handleVideo, setHandleVideo] = useState(1);
+    const [handleLink, setHandleLink] = useState(1);
     const handleClick = (event:any) => {
         // 👇️ toggle class on click
         var parentE = event.currentTarget.parentElement;
@@ -28,7 +36,8 @@ export default function NewProject() {
         if( duplicateI.length > 0 ){
             duplicateLength = duplicateI.length;
         }
-        //console.log( duplicateI );
+
+        console.log( duplicateObj[0].id );
         if( duplicateI.length > 0 ){
             clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
             clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
@@ -37,6 +46,19 @@ export default function NewProject() {
         }
         clone.id = duplicateObj[0].id+duplicateLength;
         row[0].appendChild(clone);
+
+        
+
+        
+        if( duplicateObj[0].id.includes('faq') ){
+            setHandleFaq( duplicateObj.length );
+        }else if( duplicateObj[0].id.includes('video') ){
+            setHandleVideo( duplicateObj.length );
+        }else if( duplicateObj[0].id.includes('link') ){
+            setHandleLink( duplicateObj.length*2 );
+        }
+
+        console.log( lengthT );
         setHandleButton(true);
     };
 
@@ -61,6 +83,34 @@ export default function NewProject() {
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
+                            
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'hidden',
+                                    textI: 'faqC',
+                                    placeH: handleFaq,
+                                    formInline: true,
+                                }}
+                            />
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'hidden',
+                                    textI: 'videoc',
+                                    placeH: handleVideo,
+                                    formInline: true,
+                                }}
+                            />
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'hidden',
+                                    textI: 'linkc',
+                                    placeH: handleLink,
+                                    formInline: true,
+                                }}
+                            />
 
                             <InputF 
                                 fieldElement={{
@@ -222,6 +272,13 @@ export default function NewProject() {
                                         </div>
                                     </div>
                                 </div>
+                                <button
+                                    onClick={handleClick}
+                                    type="button"
+                                    className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
+                                >
+                                    Add Useful Links
+                                </button>
                                 <InputF 
                                     fieldElement={{
                                         typeI: 'input',
@@ -231,13 +288,6 @@ export default function NewProject() {
                                         formInline: true
                                     }}
                                 />
-                                <button
-                                    onClick={handleClick}
-                                    type="button"
-                                    className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
-                                >
-                                    Add Video URL
-                                </button>
                             </div>
 
                         </div>

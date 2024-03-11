@@ -17,10 +17,12 @@ export interface InputObj {
 export default function TextA( {fieldElement}:InputObj ) {
 
     return (
-        <div key={fieldElement.textI} className="">
-            <label htmlFor={fieldElement.textI.replaceAll(' ', '-').toLowerCase()} className="block font-medium leading-6 text-gray-900">
-                {fieldElement.textI}
-            </label>
+        <div key={fieldElement.textI} className={`${fieldElement.inputT == 'hidden' ? 'hidden':''}`}>
+            {fieldElement.inputT !== 'hidden' &&
+                <label htmlFor={fieldElement.textI.replaceAll(' ', '-').toLowerCase()} className="block font-medium leading-6 text-gray-900">
+                    {fieldElement.textI}
+                </label>
+            }
             <div className="mt-2">
                 <textarea
                     id={fieldElement.textI.replaceAll(' ', '-').toLowerCase()}

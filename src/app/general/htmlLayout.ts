@@ -1,6 +1,41 @@
 'use server'
  
 export async function htmlLayout(formData: FormData) {
+    var faqCode = '';
+    var videoCode = '';
+    var linkCode = '';
+    for (let index = 1; index <= Number(formData.get('faqc')); index++) {
+        const element = formData.get('question-'+index);
+        faqCode += 
+            '<div class="card mb-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'+
+                '<div class="card-header" role="tab">'+
+                    '<button class="panel-title">'+
+                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">'+formData.get("question-"+index)+'</h3>'+
+                        '<span class="dashicons dashicons-arrow-down-alt2"></span>'+
+                    '</button>'+
+                '</div>'+
+                '<div class="panel-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'+
+                    '<div itemprop="text">'+formData.get("answer-"+index)+'</div>'+
+                '</div>'+
+            '</div>';
+    }
+
+    for(let index = 2; index <= Number(formData.get("videoc")); index++){
+        videoCode += '<div class="video-wrapper video-big">'+
+            '<iframe '+
+                'class="mbr-embedded-video" '+
+                'src='+formData.get("video-"+index)+' '+
+                'width="1280" '+
+                'height="720" '+
+                'allowfullscreen="" '+
+            '></iframe>'+
+        '</div>';
+    }
+
+    for(let index = 1; index <= Number(formData.get("linkc")); index++){
+        linkCode += '<li class="mb-2"><a href="'+formData.get("link-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Backlink Analyzer</a></li>';
+    }
+
     const rawHTML = ' '+
         '<!DOCTYPE html>'+
         '<html lang="en">'+
@@ -25,8 +60,8 @@ export async function htmlLayout(formData: FormData) {
                 '/>'+
                 '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />'+
                 '<link data-next-font="" rel="preconnect" href="/" crossorigin="anonymous" />'+
-                '<link rel="preload" href="./assets/static/css/28449e32fdf92c49.css" as="style" />'+
-                '<link rel="stylesheet" href="./assets/static/css/28449e32fdf92c49.css" data-n-g="" />'+
+                '<link rel="preload" href="./28449e32fdf92c49.css" as="style" />'+
+                '<link rel="stylesheet" href="./28449e32fdf92c49.css" data-n-g="" />'+
                 '<noscript data-n-css=""></noscript>'+
                 '<script src="./assets/static/js/js.js" defer=""></script>'+
                 '<style data-href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&display=swap">'+
@@ -287,7 +322,7 @@ export async function htmlLayout(formData: FormData) {
                             '<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg px-0">'+
                                 '<div class="container">'+
                                     '<div class="navbar-brand">'+
-                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">SEO Software Suite</a></span>'+
+                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">'+formData.get("name-of-project")+'</a></span>'+
                                     '</div>'+
                                 '</div>'+
                             '</nav>'+
@@ -313,61 +348,7 @@ export async function htmlLayout(formData: FormData) {
                                             '<h2 class="mbr-section-title mb-0 mbr-fonts-style display-2">Frequently Asked Questions</h2>'+
                                         '</div>'+
                                         '<div id="accordion_1" itemscope itemtype="https://schema.org/FAQPage" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">'+
-                                            '<div class="card mb-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'+
-                                                '<div class="card-header" role="tab">'+
-                                                    '<button class="panel-title">'+
-                                                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">What is SEO software, and why do I need it?</h3>'+
-                                                        '<span class="dashicons dashicons-arrow-down-alt2"></span>'+
-                                                    '</button>'+
-                                                '</div>'+
-                                                '<div class="panel-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'+
-                                                    '<div itemprop="text">'+
-                                                        '<p>'+
-                                                            'SEO (Search Engine Optimization) software is a set of tools and applications designed to help businesses and website owners improve their online visibility by optimizing their website'+
-                                                            'for search engines like Google. You need an <a href="https://searchatlas.com/">SEO software suite</a> to analyze, track, and enhance your website&#x27;s performance to rank higher in'+
-                                                            'search engine results and drive more organic traffic.'+
-                                                        '</p>'+
-                                                    '</div>'+
-                                                '</div>'+
-                                            '</div>'+
-                                            '<div class="card mb-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'+
-                                                '<div class="card-header" role="tab">'+
-                                                    '<button class="panel-title">'+
-                                                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">What are the typical features of SEO software?</h3>'+
-                                                        '<span class="dashicons dashicons-arrow-down-alt2"></span>'+
-                                                    '</button>'+
-                                                '</div>'+
-                                                '<div class="panel-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'+
-                                                    '<div itemprop="text">'+
-                                                        '<p>SEO software usually includes features such as:</p>'+
-                                                        '<ul>'+
-                                                            '<li>- Keyword research and analysis.</li>'+
-                                                            '<li>- Site audit and on-page optimization recommendations.</li>'+
-                                                            '<li>- Backlink analysis and management.</li>'+
-                                                            '<li>- Rank tracking and monitoring.</li>'+
-                                                            '<li>- Competitor analysis.</li>'+
-                                                            '<li>- Content optimization suggestions.</li>'+
-                                                            '<li>- Reporting and analytics.</li>'+
-                                                        '</ul>'+
-                                                    '</div>'+
-                                                '</div>'+
-                                            '</div>'+
-                                            '<div class="card mb-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'+
-                                                '<div class="card-header" role="tab">'+
-                                                    '<button class="panel-title">'+
-                                                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">Do I need technical expertise to use SEO software effectively?</h3>'+
-                                                        '<span class="dashicons dashicons-arrow-down-alt2"></span>'+
-                                                    '</button>'+
-                                                '</div>'+
-                                                '<div class="panel-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'+
-                                                    '<div itemprop="text">'+
-                                                        '<p>'+
-                                                            'While technical expertise can be beneficial, many SEO software tools are designed to be user-friendly and require no specialized technical skills. Most tools offer guides and tutorials'+
-                                                            'to help users navigate and make the most of their features.'+
-                                                        '</p>'+
-                                                    '</div>'+
-                                                '</div>'+
-                                            '</div>'+
+                                            faqCode+
                                         '</div>'+
                                     '</div>'+
                                 '</div>'+
@@ -382,37 +363,17 @@ export async function htmlLayout(formData: FormData) {
                                     '</div>'+
                                     '<div class="col-12 lg:col-8 video-left video-block">'+
                                         '<div class="video-wrapper video-big">'+
-                                            '<iframe'+
-                                                'class="mbr-embedded-video"'+
-                                                'src="https://www.youtube.com/embed/aCL9SmapEps?si=zAji91-iwmSnPbcS"'+
-                                                'width="1280"'+
-                                                'height="720"'+
-                                                'allowfullscreen=""'+
+                                            '<iframe '+
+                                                'class="mbr-embedded-video" '+
+                                                'src='+formData.get("video-1")+' '+
+                                                'width="1280" '+
+                                                'height="720" '+
+                                                'allowfullscreen="" '+
                                             '></iframe>'+
                                         '</div>'+
                                     '</div>'+
                                     '<div class="col-12 lg:col-4 video-right video-block video-multiple">'+
-                                        '<div class="video-wrapper">'+
-                                            '<iframe'+
-                                                'class="mbr-embedded-video"'+
-                                                'src="https://www.youtube.com/embed/1JJfWnAryrM?si=hDmO270n74_vr9q8?rel=0&amp;&amp;showinfo=0&amp;autoplay=0&amp;loop=0"'+
-                                                'width="1280"'+
-                                                'height="720"'+
-                                                'frameborder="0"'+
-                                                'allowfullscreen=""'+
-                                            '></iframe>'+
-                                        '</div>'+
-
-                                        '<div class="video-wrapper">'+
-                                            '<iframe'+
-                                                'class="mbr-embedded-video"'+
-                                                'src="https://www.youtube.com/embed/f4igJfT6iU0?si=7PckjR1-tDCLnq90?rel=0&amp;&amp;showinfo=0&amp;autoplay=0&amp;loop=0"'+
-                                                'width="1280"'+
-                                                'height="720"'+
-                                                'frameborder="0"'+
-                                                'allowfullscreen=""'+
-                                            '></iframe>'+
-                                        '</div>'+
+                                        videoCode+
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
@@ -434,15 +395,13 @@ export async function htmlLayout(formData: FormData) {
                                             '<h5 class="text-lg font-bold mb-2">SearchAtlas</h5>'+
                                             '<ul class="list-decimal pl-5">'+
                                                 '<li class="mb-2">Company Website:</li>'+
-                                                '<li><a href="http://www.searchatlas.com" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">www.searchatlas.com</a></li>'+
+                                                '<li><a href="'+formData.get("company-link")+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("name-of-project")+'</a></li>'+
                                             '</ul>'+
                                         '</div>'+
                                         '<div class="w-full md:w-1/3 px-4">'+
                                             '<h5 class="text-lg font-bold mb-2">Useful Links</h5>'+
                                             '<ul class="list-decimal pl-5">'+
-                                                '<li class="mb-2"><a href="https://searchatlas.com/backlink-analyzer/" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Backlink Analyzer</a></li>'+
-                                                '<li class="mb-2"><a href="https://searchatlas.com/enterprise-seo-software/" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Enterprise SEO Software</a></li>'+
-                                                '<li><a href="https://searchatlas.com/da-checker/" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">DA Checker</a></li>'+
+                                                linkCode+
                                             '</ul>'+
                                         '</div>'+
                                         '<div class="w-full md:w-1/3 px-4">'+
@@ -563,6 +522,27 @@ export async function htmlLayout(formData: FormData) {
                     '}'+
                 '</script>'+
             '</body>'+
+            '<style></style>'+
+            '<script>'+
+                'document.addEventListener("DOMContentLoaded", function() {'+
+                    'var accordions = document.querySelectorAll(".accordion");'+
+                    'accordions.forEach(function(accordion) {'+
+                        'var buttons = accordion.querySelectorAll(".card-header");'+
+                        'buttons.forEach(function(button) {'+
+                            'button.addEventListener("click", function() {'+
+                                'var currentCardBody = button.closest(".card").querySelector(".panel-body");'+
+                                'currentCardBody.parentElement.classList.toggle( "activeCard" );'+
+                                'var otherCardBodies = accordion.querySelectorAll(".card .panel-body");'+
+                                'otherCardBodies.forEach(function(cardBody) {'+
+                                    'if (cardBody !== currentCardBody) {'+
+                                        'cardBody.parentElement.classList.remove("activeCard");'+
+                                    '}'+
+                                '});'+
+                            '});'+
+                        '});'+
+                    '});'+
+                '});'+
+            ' </script>'+
         '</html>'+
     '';
 

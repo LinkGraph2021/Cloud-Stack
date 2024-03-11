@@ -9,9 +9,6 @@ export async function createHtml(prevState: any, formData: FormData) {
 
   try {
     writeFileSync(`./tmp/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
-    return {
-      message: 'Done'
-    }
   } catch (error) {
     console.error(error);
     return {
@@ -19,6 +16,10 @@ export async function createHtml(prevState: any, formData: FormData) {
     }
     // Expected output: ReferenceError: nonExistentFunction is not defined
     // (Note: the exact output may be browser-dependent)
+  }finally {
+    return {
+      message :'Done'
+    }
   }
   
 }
