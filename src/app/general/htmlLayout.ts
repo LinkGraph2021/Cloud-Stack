@@ -333,7 +333,7 @@ export async function htmlLayout(formData: FormData) {
                         '<section class="flex-col md:flex-row flex items-center header1 cid-t9fGBrS5Op mbr-fullscreen">'+
                             '<div class="container flex md:flex-row flex-col">'+
                                 '<div class="flex-1">'+
-                                    '<h1 class="text-6xl font-bold tracking-tighter leading-tight md:pr-8 mbr-section-title mbr-fonts-style mb-3 display-1">'+formData.get("name-of-project")+'</h1>'+
+                                    '<h1 class="text-6xl font-bold tracking-tighter leading-tight md:pr-8 mbr-section-title mbr-fonts-style mb-3 display-1">'+formData.get("main-header-(h1)")+'</h1>'+
                                     '<p>'+formData.get("description")+'</p>'+
                                 '</div>'+
                                 '<div class="flex-1"><img src="images/hero-image-3.webp" alt="hero"></div>'+
