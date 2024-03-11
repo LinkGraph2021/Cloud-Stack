@@ -1,10 +1,15 @@
 
 'use client';
-import {useState, FormEvent} from 'react'
+import {useState} from 'react'
+import {useFormState} from 'react-dom'
 import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
 import TextA from '@/components/FormFields/TextA';
-import fs from 'fs';
+import { createHtml } from '@/app/actions'
+
+const initialState = {
+    message: '',
+}
 
 
 export default function NewProject() {
@@ -37,50 +42,22 @@ export default function NewProject() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
- 
-    async function onSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-        var fs = require('fs');
 
-        var fileName = 'path/to/file';
-        var stream = fs.createWriteStream(fileName);
-
-        stream.once('open', function(fd) {
-        var html = buildHtml();
-
-        stream.end(html);
-        });
-
-        // event.preventDefault()
-        // setIsLoading(true)
-        // setError(null) // Clear previous errors when a new request starts
-    
-        // try {
-        // const formData = new FormData(event.currentTarget)
-        // const response = await fetch('/api/submit', {
-        //     method: 'POST',
-        //     body: formData,
-        // })
-    
-        // if (!response.ok) {
-        //     throw new Error('Failed to submit the data. Please try again.')
-        // }
-    
-        // // Handle response if necessary
-        // const data = await response.json()
-        // // ...
-        // } catch (error) {
-        // // Capture the error message to display to the user
-        // setError(error.message)
-        //     console.error(error)
-        // } finally {
-        //     setIsLoading(false)
-        // }
-    }
+    const [state, formAction] = useFormState(createHtml, initialState)
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
-            <form className='w-full flex flex-col justify-center' onSubmit={onSubmit}>
+            <form className='w-full flex flex-col justify-center' action={formAction}>
+                <button
+                    disabled={isLoading}
+                    type="submit"
+                    className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
+                >
+                    {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
+                </button>
+                <p aria-live="polite" className="">
+                    {state?.message}
+                </p>
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
@@ -116,6 +93,15 @@ export default function NewProject() {
                                     }}
                                 />
                             </div>
+
+                            <TextA 
+                                fieldElement={{
+                                    typeI: 'textarea',
+                                    textI: 'Description',
+                                    placeH: 'testing this field to add it on html',
+                                    rows: 5
+                                }}
+                            />
                             
                             <InputF 
                                 fieldElement={{
@@ -201,7 +187,7 @@ export default function NewProject() {
                                     typeI: 'input',
                                     inputT: 'text',
                                     textI: 'Address',
-                                    placeH: 'street test 1, #9999',
+                                    placeH: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.790560529298!2d-73.99024728834254!3d40.74463383549783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259dd51bcf5d3%3A0xf5dbe31c090c5d24!2sLinkGraph!5e0!3m2!1ses-419!2spy!4v1695764780131!5m2!1ses-419!2spy" width="600" height="450" style="border: 0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
                                     formInline: true
                                 }}
                             />
