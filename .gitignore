@@ -40,6 +40,6 @@ next-env.d.ts
 !/src/app/htmls/test.html
 !/src/app/htmls/all.css
 
-/public/htmls/*
-!/public/htmls/test.html
-!/public/htmls/all.css
+/public/static/htmls/*
+!/public/static/htmls/test.html
+!/public/static/htmls/all.css
