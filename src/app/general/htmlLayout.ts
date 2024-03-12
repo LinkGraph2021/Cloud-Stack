@@ -4,9 +4,11 @@ import { readFileSync } from 'fs';
 export async function htmlLayout(formData: FormData) {
     var cpath = 'https://cloud-stack-delta.vercel.app';
     if( process.env.NODE_ENV == 'development' ){
-        cpath = './public';
+        cpath = './public/static/htmls/all.css';
+    }else if( process.env.NODE_ENV == 'production' ){
+        cpath = require.resolve(`${cpath}/static/htmls/all.css`)
     }
-    var cssData = readFileSync(`${cpath}/static/htmls/all.css`);
+    var cssData = readFileSync(cpath);
     var postCSS = '';
     var faqCode = '';
     var videoCode = '';
