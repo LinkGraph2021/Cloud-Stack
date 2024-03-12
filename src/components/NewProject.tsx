@@ -68,7 +68,15 @@ export default function NewProject() {
     const [state, formAction] = useFormState(createHtml, initialState)
 
     const handleDownload = async () => {
-        const response = await fetch('/api/file');
+        if (typeof window !== "undefined") {
+            var currentFile = document.getElementById('site-url-to-link-to').value ? document.getElementById('site-url-to-link-to').value : 'test';
+        }
+        const response = await fetch(`/api/file?filename=${currentFile}`,{
+            method: "GET",
+            headers: {
+                'filename': currentFile
+            }
+        });
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a');
@@ -311,14 +319,10 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
+                        onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
                         {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
-                    </button>
-                    <button
-                    type="button"
-                    onClick={handleDownload} >
-                        Download
                     </button>
                 </div>
             </form>
