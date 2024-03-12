@@ -36,9 +36,9 @@ yarn-error.log*
 next-env.d.ts
 
 #folder with custom htmls
-/src/app/htmls/*
-!/src/app/htmls/test.html
-!/src/app/htmls/all.css
+/static/htmls/*
+!/static/htmls/test.html
+!/static/htmls/all.css
 
 /public/static/htmls/*
 !/public/static/htmls/test.html
