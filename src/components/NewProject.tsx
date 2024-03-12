@@ -39,7 +39,6 @@ export default function NewProject() {
             duplicateLength = duplicateI.length;
         }
 
-        console.log( duplicateObj[0].id );
         if( duplicateI.length > 0 ){
             clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
             clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
@@ -58,7 +57,6 @@ export default function NewProject() {
             setHandleLink( duplicateObj.length*2 );
         }
 
-        //console.log( lengthT );
         setHandleButton(true);
     };
 

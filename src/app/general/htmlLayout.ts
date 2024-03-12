@@ -3,7 +3,6 @@ import { readFileSync } from 'fs';
  
 export async function htmlLayout(formData: FormData) {
     var cssData = readFileSync(`./src/app/htmls/all.css`);
-    console.log(cssData);
     var postCSS = '';
     var faqCode = '';
     var videoCode = '';
