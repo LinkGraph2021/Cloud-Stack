@@ -4,9 +4,9 @@ import { readFileSync } from 'fs';
 export async function htmlLayout(formData: FormData) {
     var cpath = '';
     if( process.env.NODE_ENV == 'development' ){
-        cpath = './public';
+        cpath = '/public';
     }
-    var cssData = readFileSync(`${cpath}/static/htmls/all.css`);
+    var cssData = readFileSync(`.${cpath}/static/htmls/all.css`);
     var postCSS = '';
     var faqCode = '';
     var videoCode = '';
