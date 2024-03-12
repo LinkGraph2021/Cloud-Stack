@@ -67,7 +67,7 @@ export default function NewProject() {
 
     const handleDownload = async () => {
         if (typeof window !== "undefined") {
-            var currentFile = document.getElementById('site-url-to-link-to').value ? document.getElementById('site-url-to-link-to').value : 'test';
+            var currentFile = (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value ? (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value : 'test';
         }
         const response = await fetch(`/api/file?filename=${currentFile}`,{
             method: "GET",
