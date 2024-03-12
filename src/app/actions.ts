@@ -12,7 +12,7 @@ export async function createHtml(prevState: any, formData: FormData) {
   } catch (error) {
     console.error(error);
     return {
-      message: console.error(error)
+      message: "couldn't fetch"
     }
     // Expected output: ReferenceError: nonExistentFunction is not defined
     // (Note: the exact output may be browser-dependent)
