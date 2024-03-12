@@ -300,6 +300,15 @@ export default function NewProject() {
                                 />
                             </div>
 
+                            <TextA 
+                                fieldElement={{
+                                    typeI: 'textarea',
+                                    textI: 'Hidden Section',
+                                    placeH: 'This section will be hidden',
+                                    rows: 8
+                                }}
+                            />
+
                         </div>
                     </div>
                 </div>

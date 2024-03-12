@@ -34,6 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#folder with custom htmls
 /src/app/htmls/*
 !/src/app/htmls/test.html
 !/src/app/htmls/all.css
+
+/public/htmls/*
+!/public/htmls/test.html
+!/public/htmls/all.css
