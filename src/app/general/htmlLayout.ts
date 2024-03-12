@@ -36,7 +36,7 @@ export async function htmlLayout(formData: FormData) {
     }
 
     for(let index = 1; index <= Number(formData.get("linkc")); index++){
-        linkCode += '<li class="mb-2"><a href="'+formData.get("link-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Backlink Analyzer</a></li>';
+        linkCode += '<li class="mb-2"><a href="'+formData.get("link-link-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("label-link-"+index)+'</a></li>';
     }
 
     const rawHTML = ' '+

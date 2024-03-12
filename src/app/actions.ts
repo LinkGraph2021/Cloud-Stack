@@ -6,6 +6,7 @@ import { htmlLayout } from '@/app/general/htmlLayout'
 export async function createHtml(prevState: any, formData: FormData) {
   const path = 'test';
   var htmlResponse =  await htmlLayout(formData);
+  console.log( formData );
 
   try {
     writeFileSync(`./public/static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);

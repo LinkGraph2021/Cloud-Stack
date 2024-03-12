@@ -4,6 +4,7 @@ import {useState} from 'react'
 import {useFormState} from 'react-dom'
 import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
+import InputD from '@/components/FormFields/InputD';
 import TextA from '@/components/FormFields/TextA';
 import { createHtml } from '@/app/actions'
 import { readFile } from 'fs/promises';
@@ -258,24 +259,26 @@ export default function NewProject() {
                                 <div className='repeatableWrap flex flex-col gap-3 mb-5'>
                                     <div id="usefullink" className='inputRow flex items-center gap-20'>
                                         <div className="inputSingle">
-                                            <InputF 
+                                            <InputD 
                                                 fieldElement={{
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 1',
-                                                    placeH: '/testing',
+                                                    placeH: 'testing',
+                                                    placeH2: '/testing',
                                                     formInline: true
                                                 }}
                                             />
                                         </div>
 
                                         <div className="inputSingle">
-                                            <InputF 
+                                            <InputD 
                                                 fieldElement={{
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 2',
-                                                    placeH: '/tester',
+                                                    placeH: 'testing',
+                                                    placeH2: '/testing',
                                                     formInline: true
                                                 }}
                                             />
