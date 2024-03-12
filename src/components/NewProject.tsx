@@ -66,8 +66,9 @@ export default function NewProject() {
     const [state, formAction] = useFormState(createHtml, initialState)
 
     const handleDownload = async () => {
+        var currentFile = '';
         if (typeof window !== "undefined") {
-            var currentFile = (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value ? (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value : 'test';
+            currentFile = (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value ? (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value : 'test';
         }
         const response = await fetch(`/api/file?filename=${currentFile}`,{
             method: "GET",
