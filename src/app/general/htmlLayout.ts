@@ -2,11 +2,16 @@
 import { readFileSync } from 'fs';
  
 export async function htmlLayout(formData: FormData) {
-    var cssData = readFileSync(`/static/htmls/all.css`);
+    var cpath = '';
+    if( process.env.NODE_ENV == 'development' ){
+        cpath = './public';
+    }
+    var cssData = readFileSync(`${cpath}/static/htmls/all.css`);
     var postCSS = '';
     var faqCode = '';
     var videoCode = '';
     var linkCode = '';
+    var socialCode = '';
     for (let index = 1; index <= Number(formData.get('faqc')); index++) {
         const element = formData.get('question-'+index);
         faqCode += 
@@ -37,6 +42,10 @@ export async function htmlLayout(formData: FormData) {
 
     for(let index = 1; index <= Number(formData.get("linkc")); index++){
         linkCode += '<li class="mb-2"><a href="'+formData.get("link-link-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("label-link-"+index)+'</a></li>';
+    }
+
+    for(let index = 1; index <= Number(formData.get("socialc")); index++){
+        socialCode += '<li class="mb-2"><a href="'+formData.get("link-social-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("label-social-"+index)+'</a></li>';
     }
 
     const rawHTML = ' '+
@@ -407,10 +416,7 @@ export async function htmlLayout(formData: FormData) {
                                         '<div class="w-full md:w-1/3 px-4">'+
                                             '<h5 class="text-lg font-bold mb-2">Follow us on Social Media</h5>'+
                                             '<ul class="list-decimal pl-5">'+
-                                                '<li class="mb-2"><a href="https://www.instagram.com/searchatlasseo/" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Instagram</a></li>'+
-                                                '<li class="mb-2"><a href="https://twitter.com/LinkGraphSEO" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Twitter</a></li>'+
-                                                '<li class="mb-2"><a href="https://www.linkedin.com/company/linkgraph" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>'+
-                                                '<li><a href="https://www.facebook.com/linkgraphseo" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">Facebook</a></li>'+
+                                                socialCode+
                                             '</ul>'+
                                         '</div>'+
                                     '</div>'+

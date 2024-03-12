@@ -24,13 +24,13 @@ export default function InputD( {fieldElement}:InputObj ) {
                 </label>
             }
             <div className="mt-1">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md overflow-hidden">
                     <input
                         type='text'
                         name={`label-${fieldElement.textI.replaceAll(' ', '-').toLowerCase()}`}
                         id={`label-${fieldElement.textI.replaceAll(' ', '-').toLowerCase()}`}
                         autoComplete={fieldElement.inputT}
-                        className="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:sm:leading-6"
+                        className="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:sm:leading-6 overflow-hidden"
                         defaultValue={fieldElement.placeH ? fieldElement.placeH : fieldElement.textI}
                         placeholder={fieldElement.placeH ? fieldElement.placeH : fieldElement.textI}
                     />
@@ -39,7 +39,7 @@ export default function InputD( {fieldElement}:InputObj ) {
                         name={`link-${fieldElement.textI.replaceAll(' ', '-').toLowerCase()}`}
                         id={`link-${fieldElement.textI.replaceAll(' ', '-').toLowerCase()}`}
                         autoComplete={fieldElement.inputT}
-                        className="block flex-1 border-0 border-l-2 border-gray-300 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:sm:leading-6"
+                        className="block flex-1 border-0 border-l-2 border-gray-300 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:sm:leading-6 overflow-hidden"
                         defaultValue={fieldElement.placeH2 ? fieldElement.placeH2 : fieldElement.textI}
                         placeholder={fieldElement.placeH2 ? fieldElement.placeH2 : fieldElement.textI}
                     />

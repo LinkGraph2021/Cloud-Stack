@@ -4,11 +4,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { htmlLayout } from '@/app/general/htmlLayout'
  
 export async function createHtml(prevState: any, formData: FormData) {
-  const path = 'test';
+  var cpath = '';
+  if( process.env.NODE_ENV == 'development' ){
+    cpath = './public';
+  }
   var htmlResponse =  await htmlLayout(formData);
+  console.log( formData );
+  console.log(process.env.NODE_ENV);
 
   try {
-    writeFileSync(`/static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
+    writeFileSync(`${cpath}/static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
   } catch (error) {
     console.error(error);
     return {

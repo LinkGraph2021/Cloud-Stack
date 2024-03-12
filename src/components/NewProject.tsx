@@ -27,6 +27,7 @@ export default function NewProject() {
     const [handleFaq, setHandleFaq] = useState(1);
     const [handleVideo, setHandleVideo] = useState(1);
     const [handleLink, setHandleLink] = useState(1);
+    const [handleSocial, setHandleSocial] = useState(1);
     const handleClick = (event:any) => {
         // 👇️ toggle class on click
         var parentE = event.currentTarget.parentElement;
@@ -41,21 +42,23 @@ export default function NewProject() {
         }
 
         if( duplicateI.length > 0 ){
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
         }else{
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)[0-9]/gi, "$1$2"+duplicateLength);
         }
         clone.id = duplicateObj[0].id+duplicateLength;
         row[0].appendChild(clone);
 
         
         if( duplicateObj[0].id.includes('faq') ){
-            setHandleFaq( duplicateObj.length );
+            setHandleFaq( duplicateLength );
         }else if( duplicateObj[0].id.includes('video') ){
-            setHandleVideo( duplicateObj.length );
+            setHandleVideo( duplicateLength );
         }else if( duplicateObj[0].id.includes('link') ){
-            setHandleLink( duplicateObj.length*2 );
+            setHandleLink( duplicateLength+2 );
+        }else if( duplicateObj[0].id.includes('social') ){
+            setHandleSocial( duplicateLength );
         }
 
         setHandleButton(true);
@@ -119,6 +122,15 @@ export default function NewProject() {
                                     inputT: 'hidden',
                                     textI: 'linkc',
                                     placeH: handleLink,
+                                    formInline: true,
+                                }}
+                            />
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'hidden',
+                                    textI: 'socialc',
+                                    placeH: handleSocial,
                                     formInline: true,
                                 }}
                             />
@@ -292,6 +304,31 @@ export default function NewProject() {
                                 >
                                     Add Useful Links
                                 </button>
+
+                                <h2 className='mt-6'>Social Links</h2>
+                                <div className='repeatableSection'>
+                                    <div className='repeatableWrap flex flex-col gap-3 mb-5'>
+                                        <div id="social" className='inputRow flex items-center gap-20'>
+                                            <InputD 
+                                                fieldElement={{
+                                                    typeI: 'input',
+                                                    inputT: 'text',
+                                                    textI: 'Social 1',
+                                                    placeH: 'Instagram',
+                                                    placeH2: 'https://www.instagram.com/omnilawpc/',
+                                                    formInline: true
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={handleClick}
+                                        type="button"
+                                        className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
+                                    >
+                                        Add Social
+                                    </button>
+                                </div>
                                 <InputF 
                                     fieldElement={{
                                         typeI: 'input',
