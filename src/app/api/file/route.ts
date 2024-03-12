@@ -3,11 +3,10 @@ import { URLSearchParams } from 'next/dist/compiled/@edge-runtime/primitives/url
 import path from 'path'
 
 export async function GET(req: Request) {
-  var cpath = __dirname;
+  var cpath = 'https://cloud-stack-delta.vercel.app/';
   if( process.env.NODE_ENV == 'development' ){
     cpath = process.cwd() + '/public';
   }
-  console.log( cpath );
   var currentURL = req.headers.get('filename') ? req.headers.get('filename') : 'test'
   const buffer = await readFile(path.join(`${cpath}/static/htmls`, 'test.html'));
   const headers = new Headers();
