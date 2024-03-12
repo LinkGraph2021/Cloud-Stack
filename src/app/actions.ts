@@ -6,12 +6,12 @@ import { htmlLayout } from '@/app/general/htmlLayout'
 export async function createHtml(prevState: any, formData: FormData) {
   var cpath = '';
   if( process.env.NODE_ENV == 'development' ){
-    cpath = '/public';
+    cpath = './public/';
   }
   var htmlResponse =  await htmlLayout(formData);
 
   try {
-    writeFileSync(`.${cpath}/static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
+    writeFileSync(`${cpath}static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
   } catch (error) {
     console.error(error);
     return {
