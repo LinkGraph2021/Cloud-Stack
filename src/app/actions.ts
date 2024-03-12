@@ -11,7 +11,7 @@ export async function createHtml(prevState: any, formData: FormData) {
   var htmlResponse =  await htmlLayout(formData);
 
   try {
-    writeFileSync(`${cpath}static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
+    writeFileSync(`${cpath}/static/htmls/${formData.get('site-url-to-link-to')}.html`, htmlResponse);
   } catch (error) {
     console.error(error);
     return {
