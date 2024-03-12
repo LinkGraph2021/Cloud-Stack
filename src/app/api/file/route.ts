@@ -8,7 +8,7 @@ export async function GET(req: Request) {
   if( process.env.NODE_ENV == 'development' ){
     cpath = process.cwd() + '/public';
   }else if( process.env.NODE_ENV == 'production' ){
-    cpath = require.resolve(path.join(`${cpath}/static/htmls`, `${currentURL}.html`))
+    cpath = require.resolve(`${cpath}/static/htmls` + `${currentURL}.html`)
   }
   const buffer = await readFile(cpath);
   const headers = new Headers();
