@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     cpath = process.cwd() + '/public';
   }
   var currentURL = req.headers.get('filename') ? req.headers.get('filename') : 'test'
-  const buffer = await readFile(path.join(`${cpath}/static/htmls`, 'test.html'));
+  const buffer = await readFile(path.join(`${cpath}/static/htmls`, `${currentURL}.html`));
   const headers = new Headers();
   headers.append('Content-Disposition', `attachment; filename="${currentURL}.htmtl"`);
   headers.append('Content-Type', 'text/html');
