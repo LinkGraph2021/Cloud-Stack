@@ -21,6 +21,7 @@ export async function createHtml(prevState: any, formData: FormData) {
     // (Note: the exact output may be browser-dependent)
   }finally {
     return {
+      response: htmlResponse,
       message :'Done'
     }
   }

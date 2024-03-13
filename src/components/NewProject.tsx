@@ -11,6 +11,7 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 
 const initialState = {
+    response: '',
     message: '',
 }
 var lengthT = {
@@ -19,6 +20,24 @@ var lengthT = {
     footerC: 1
 };
 
+export async function GetResponse(response:any) {
+    const buffer = Buffer.from(response, 'utf8');
+    const headers = new Headers();
+    headers.append('Content-Disposition', 'attachment; filename="test.html"');
+    headers.append('Content-Type', 'text/html');
+
+    const cResponse = new Response(buffer, {
+        headers,
+    });
+    
+    const blob = await cResponse.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'test.html';
+    link.click();
+    window.URL.revokeObjectURL(url);
+}
 
 export default function NewProject() {
     const router = useRouter();
@@ -68,6 +87,10 @@ export default function NewProject() {
     const [error, setError] = useState<string | null>(null)
 
     const [state, formAction] = useFormState(createHtml, initialState)
+
+    if( state?.response ){
+        GetResponse(state?.response);
+    }
 
     const handleDownload = async () => {
         var currentFile = '';
@@ -367,7 +390,7 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        onClick={handleDownload}
+                        //onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
                         {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
