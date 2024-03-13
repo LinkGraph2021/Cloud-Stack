@@ -3,15 +3,16 @@ import { readFileSync } from 'fs';
 import path from 'path';
  
 export async function htmlLayout(formData: FormData) {
-    var cpath = '';
-    if( process.env.NODE_ENV == 'development' ){
-        cpath = './public/static/htmls/all.css';
-    }else if( process.env.NODE_ENV == 'production' ){
-        cpath = process.cwd() + "/static/htmls/all.css"
-    }
-    var cssData = readFileSync(cpath);
+    // var cpath = '';
+    // if( process.env.NODE_ENV == 'development' ){
+    //     cpath = './public/static/htmls/all.css';
+    // }else if( process.env.NODE_ENV == 'production' ){
+    //     cpath = process.cwd() + "/static/htmls/all.css"
+    // }
+    //var cssData = readFileSync(cpath);
 
-    var postCSS = '';
+    console.log( __dirname );
+
     var faqCode = '';
     var videoCode = '';
     var linkCode = '';
@@ -478,7 +479,6 @@ export async function htmlLayout(formData: FormData) {
                         '"scriptLoader": []'+
                     '}'+
                 '</script>'+
-                '<style>'+cssData+'</style>'+
                 '<script>'+
                     'document.addEventListener("DOMContentLoaded", function() {'+
                         'var accordions = document.querySelectorAll(".accordion");'+
