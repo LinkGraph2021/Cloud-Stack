@@ -3,19 +3,13 @@ import { readFileSync } from 'fs';
 import path from 'path';
  
 export async function htmlLayout(formData: FormData) {
-    // var cpath = 'https://cloud-stack-delta.vercel.app';
-    // if( process.env.NODE_ENV == 'development' ){
-    //     cpath = './public/static/htmls/all.css';
-    // }else if( process.env.NODE_ENV == 'production' ){
-    //     cpath = require.resolve(`${cpath}/static/htmls/all.css`)
-    // }
-    // var cssData = readFileSync(cpath);
     var cpath = '';
     if( process.env.NODE_ENV == 'development' ){
-        cpath = './public';
+        cpath = './public/static/htmls/all.css';
+    }else if( process.env.NODE_ENV == 'production' ){
+        cpath = process.cwd() + "/static/htmls/all.css"
     }
-    const file = readFileSync(process.cwd() + `${cpath}/static/htmls/all.css`, 'utf8');
-    console.log( file );
+    var cssData = readFileSync(cpath);
 
     var postCSS = '';
     var faqCode = '';
@@ -484,7 +478,7 @@ export async function htmlLayout(formData: FormData) {
                         '"scriptLoader": []'+
                     '}'+
                 '</script>'+
-                '<style>'+file+'</style>'+
+                '<style>'+cssData+'</style>'+
                 '<script>'+
                     'document.addEventListener("DOMContentLoaded", function() {'+
                         'var accordions = document.querySelectorAll(".accordion");'+
