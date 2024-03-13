@@ -1,14 +1,16 @@
 'use server'
 import { readFileSync } from 'fs';
+import path from 'path';
  
 export async function htmlLayout(formData: FormData) {
-    var cpath = 'https://cloud-stack-delta.vercel.app';
-    if( process.env.NODE_ENV == 'development' ){
-        cpath = './public/static/htmls/all.css';
-    }else if( process.env.NODE_ENV == 'production' ){
-        cpath = require.resolve(`${cpath}/static/htmls/all.css`)
-    }
-    var cssData = readFileSync(cpath);
+    // var cpath = 'https://cloud-stack-delta.vercel.app';
+    // if( process.env.NODE_ENV == 'development' ){
+    //     cpath = './public/static/htmls/all.css';
+    // }else if( process.env.NODE_ENV == 'production' ){
+    //     cpath = require.resolve(`${cpath}/static/htmls/all.css`)
+    // }
+    // var cssData = readFileSync(cpath);
+
     var postCSS = '';
     var faqCode = '';
     var videoCode = '';
@@ -476,7 +478,6 @@ export async function htmlLayout(formData: FormData) {
                         '"scriptLoader": []'+
                     '}'+
                 '</script>'+
-                '<style>'+cssData+'</style>'+
                 '<script>'+
                     'document.addEventListener("DOMContentLoaded", function() {'+
                         'var accordions = document.querySelectorAll(".accordion");'+
