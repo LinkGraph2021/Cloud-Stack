@@ -10,6 +10,12 @@ export async function htmlLayout(formData: FormData) {
     //     cpath = require.resolve(`${cpath}/static/htmls/all.css`)
     // }
     // var cssData = readFileSync(cpath);
+    var cpath = '';
+    if( process.env.NODE_ENV == 'development' ){
+        cpath = './public';
+    }
+    const file = readFileSync(process.cwd() + `${cpath}/static/htmls/all.css`, 'utf8');
+    console.log( file );
 
     var postCSS = '';
     var faqCode = '';
@@ -478,6 +484,7 @@ export async function htmlLayout(formData: FormData) {
                         '"scriptLoader": []'+
                     '}'+
                 '</script>'+
+                '<style>'+file+'</style>'+
                 '<script>'+
                     'document.addEventListener("DOMContentLoaded", function() {'+
                         'var accordions = document.querySelectorAll(".accordion");'+

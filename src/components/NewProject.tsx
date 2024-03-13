@@ -9,6 +9,7 @@ import TextA from '@/components/FormFields/TextA';
 import { createHtml } from '@/app/actions';
 
 const initialState = {
+    fileName: '',
     response: '',
     message: '',
 }
@@ -18,10 +19,10 @@ var lengthT = {
     footerC: 1
 };
 
-export async function GetResponse(response:any) {
+export async function GetResponse(response:any, fileName:any) {
     const buffer = Buffer.from(response, 'utf8');
     const headers = new Headers();
-    headers.append('Content-Disposition', 'attachment; filename="test.html"');
+    headers.append('Content-Disposition', `attachment; filename="${fileName}.html"`);
     headers.append('Content-Type', 'text/html');
 
     const cResponse = new Response(buffer, {
@@ -32,7 +33,7 @@ export async function GetResponse(response:any) {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'test.html';
+    link.download = `${fileName}.html`;
     link.click();
     window.URL.revokeObjectURL(url);
 }
@@ -87,7 +88,7 @@ export default function NewProject() {
     const [state, formAction] = useFormState(createHtml, initialState)
 
     if( state?.response ){
-        GetResponse(state?.response);
+        GetResponse(state?.response, state?.fileName);
     }
 
     const handleDownload = async () => {
