@@ -1,6 +1,5 @@
 
 import NewProject from '@/components/NewProject';
-import BasicForm from '@/components/BasicForm';
 
 export default function Upload() {
   return (
