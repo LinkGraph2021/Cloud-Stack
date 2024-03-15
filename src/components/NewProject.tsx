@@ -6,37 +6,12 @@ import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
 import InputD from '@/components/FormFields/InputD';
 import TextA from '@/components/FormFields/TextA';
+import { projectAction } from '@/app/general/projectAction';
 import { createHtml } from '@/app/actions';
+import { setProject } from  '@/app/firebase/projectsObject';
+import { uploadImg } from  '@/app/firebase/uploadImage';
 
-const initialState = {
-    fileName: '',
-    response: '',
-    message: '',
-}
-var lengthT = {
-    faqC: 1,
-    videoC: 1,
-    footerC: 1
-};
 
-export async function GetResponse(response:any, fileName:any) {
-    const buffer = Buffer.from(response, 'utf8');
-    const headers = new Headers();
-    headers.append('Content-Disposition', `attachment; filename="${fileName}.html"`);
-    headers.append('Content-Type', 'text/html');
-
-    const cResponse = new Response(buffer, {
-        headers,
-    });
-    
-    const blob = await cResponse.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${fileName}.html`;
-    link.click();
-    window.URL.revokeObjectURL(url);
-}
 
 export default function NewProject() {
     const router = useRouter();
@@ -82,40 +57,26 @@ export default function NewProject() {
         setHandleButton(true);
     };
 
+    
+    const initialState = {
+        success: false,
+        fileName: '',
+        rawData: '',
+        response: '',
+        message: '',
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
-    const [state, formAction] = useFormState(createHtml, initialState)
-
-    if( state?.response ){
-        GetResponse(state?.response, state?.fileName);
-    }
-
-    const handleDownload = async () => {
-        var currentFile = '';
-        if (typeof window !== "undefined") {
-            currentFile = (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value ? (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value : 'test';
-        }
-        const response = await fetch(`/api/file?filename=${currentFile}`,{
-            method: "GET",
-            headers: {
-                'filename': currentFile
-            }
-        });
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'test.html';
-        link.click();
-    };
+    const [state, formAction] = useFormState( projectAction, initialState );
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
             <form className='w-full flex flex-col justify-center' action={formAction}>
-                <p aria-live="polite" className="">
-                    {state?.message}
-                </p>
+
+                <input accept="image/png,image/jpeg" name="img-featured" id="img-featured" type='file' />
+
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
@@ -204,6 +165,16 @@ export default function NewProject() {
                                     inputT: 'text',
                                     textI: 'Keywords',
                                     placeH: 'test,tester,testing',
+                                    formInline: true
+                                }}
+                            />
+                            
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'text',
+                                    textI: 'Meta Title',
+                                    placeH: 'testiiiing',
                                     formInline: true
                                 }}
                             />
@@ -375,6 +346,10 @@ export default function NewProject() {
                     </div>
                 </div>
 
+                <p aria-live="polite" className="">
+                    {state?.message}
+                </p>
+
                 <div className="flex items-center gap-x-6">
                     <button onClick={() => router.back()} type="button" className="rounded-md border-2 px-3 py-2 border-red-600 hover:border-red-400 hover:bg-red-400 hover:text-white transition-all">
                         Back
@@ -389,6 +364,9 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
+                        onClick={() => {
+                            setHandleButton(true);
+                        }}
                         //onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
