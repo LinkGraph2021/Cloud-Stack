@@ -2,7 +2,7 @@
 import { createHtml } from '@/app/actions';
 import { downloadHtml } from '@/app/general/downloadHtml';
 import { setProject } from  '@/app/firebase/projectsObject';
-import { uploadImg } from  '@/app/firebase/uploadImage';
+import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
  
 export async function projectAction(prevState: any, formData: FormData) {
@@ -37,17 +37,6 @@ export async function projectAction(prevState: any, formData: FormData) {
         text: formData.get("label-social-"+index)
       })
     }
-    interface MyFile extends Blob {
-        lastModified: any;
-    }
-
-    let imgF: {lastModified: any, name: any, size: any, type: any, webkitRelativePath:any} = {
-        lastModified: (formData.get('img-featured') as File)?.lastModified,
-        name: (formData.get('img-featured') as File)?.name,
-        size: (formData.get('img-featured') as File)?.size,
-        type: (formData.get('img-featured') as File)?.type,
-        webkitRelativePath: (formData.get('img-featured') as File)?.webkitRelativePath,
-    }
   
     const rawFormData = {
       name: formData.get('name-of-project'),
@@ -64,14 +53,14 @@ export async function projectAction(prevState: any, formData: FormData) {
       socials: socialCode,
       clink: formData.get('company-link'),
       hsection: formData.get('hidden-section'),
-      imgf: imgF,
     }
-    var pathUrl = 'project/'+ rawFormData.name+'/'+rawFormData.imgf.name;
+    var pathUrl = 'project/'+ rawFormData.name;
+    var pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
     //console.log( pathUrl );
     const rawHtml = await createHtml(rawFormData);
-    uploadImg(rawFormData.imgf, pathUrl);
     downloadHtml(rawHtml?.response, rawFormData.url);
-    setProject( rawFormData, pathUrl );
+    uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
+    setProject( rawFormData, pathImg );
 
     return {
         success: true,

@@ -7,16 +7,13 @@ import InputF from '@/components/FormFields/InputF';
 import InputD from '@/components/FormFields/InputD';
 import TextA from '@/components/FormFields/TextA';
 import { projectAction } from '@/app/general/projectAction';
-import { createHtml } from '@/app/actions';
-import { setProject } from  '@/app/firebase/projectsObject';
-import { uploadImg } from  '@/app/firebase/uploadImage';
+import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
 
 
 export default function NewProject() {
     const router = useRouter();
 
-    const [handleButton, setHandleButton] = useState(false);
     const [handleFaq, setHandleFaq] = useState(1);
     const [handleVideo, setHandleVideo] = useState(1);
     const [handleLink, setHandleLink] = useState(1);
@@ -53,8 +50,6 @@ export default function NewProject() {
         }else if( duplicateObj[0].id.includes('social') ){
             setHandleSocial( duplicateLength );
         }
-
-        setHandleButton(true);
     };
 
     
@@ -70,6 +65,11 @@ export default function NewProject() {
     const [error, setError] = useState<string | null>(null)
 
     const [state, formAction] = useFormState( projectAction, initialState );
+    
+    // const handleChange = (e:any) => {
+    //     const image = e.target.files[0];
+    //     uploadImageToFirebase(image);
+    // };
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
@@ -364,9 +364,6 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        onClick={() => {
-                            setHandleButton(true);
-                        }}
                         //onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
