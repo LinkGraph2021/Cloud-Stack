@@ -4,19 +4,13 @@ import {useState} from 'react'
 import {useFormState} from 'react-dom'
 import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
+import InputD from '@/components/FormFields/InputD';
 import TextA from '@/components/FormFields/TextA';
-import { createHtml } from '@/app/actions'
-import { readFile } from 'fs/promises';
-import path from 'path';
+import { projectAction } from '@/app/general/projectAction';
+import { createHtml } from '@/app/actions';
+import { setProject } from  '@/app/firebase/projectsObject';
+import { uploadImg } from  '@/app/firebase/uploadImage';
 
-const initialState = {
-    message: '',
-}
-var lengthT = {
-    faqC: 1,
-    videoC: 1,
-    footerC: 1
-};
 
 
 export default function NewProject() {
@@ -26,6 +20,7 @@ export default function NewProject() {
     const [handleFaq, setHandleFaq] = useState(1);
     const [handleVideo, setHandleVideo] = useState(1);
     const [handleLink, setHandleLink] = useState(1);
+    const [handleSocial, setHandleSocial] = useState(1);
     const handleClick = (event:any) => {
         // 👇️ toggle class on click
         var parentE = event.currentTarget.parentElement;
@@ -40,56 +35,48 @@ export default function NewProject() {
         }
 
         if( duplicateI.length > 0 ){
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
         }else{
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)[0-9]/gi, "$1$2"+duplicateLength);
         }
         clone.id = duplicateObj[0].id+duplicateLength;
         row[0].appendChild(clone);
 
         
         if( duplicateObj[0].id.includes('faq') ){
-            setHandleFaq( duplicateObj.length );
+            setHandleFaq( duplicateLength );
         }else if( duplicateObj[0].id.includes('video') ){
-            setHandleVideo( duplicateObj.length );
+            setHandleVideo( duplicateLength );
         }else if( duplicateObj[0].id.includes('link') ){
-            setHandleLink( duplicateObj.length*2 );
+            setHandleLink( duplicateLength+2 );
+        }else if( duplicateObj[0].id.includes('social') ){
+            setHandleSocial( duplicateLength );
         }
 
         setHandleButton(true);
     };
 
+    
+    const initialState = {
+        success: false,
+        fileName: '',
+        rawData: '',
+        response: '',
+        message: '',
+    }
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
 
-    const [state, formAction] = useFormState(createHtml, initialState)
-
-    const handleDownload = async () => {
-        var currentFile = '';
-        if (typeof window !== "undefined") {
-            currentFile = (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value ? (document?.getElementById('site-url-to-link-to') as HTMLInputElement)?.value : 'test';
-        }
-        const response = await fetch(`/api/file?filename=${currentFile}`,{
-            method: "GET",
-            headers: {
-                'filename': currentFile
-            }
-        });
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'test.html';
-        link.click();
-    };
+    const [state, formAction] = useFormState( projectAction, initialState );
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
             <form className='w-full flex flex-col justify-center' action={formAction}>
-                <p aria-live="polite" className="">
-                    {state?.message}
-                </p>
+
+                <input accept="image/png,image/jpeg" name="img-featured" id="img-featured" type='file' />
+
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
@@ -118,6 +105,15 @@ export default function NewProject() {
                                     inputT: 'hidden',
                                     textI: 'linkc',
                                     placeH: handleLink,
+                                    formInline: true,
+                                }}
+                            />
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'hidden',
+                                    textI: 'socialc',
+                                    placeH: handleSocial,
                                     formInline: true,
                                 }}
                             />
@@ -169,6 +165,16 @@ export default function NewProject() {
                                     inputT: 'text',
                                     textI: 'Keywords',
                                     placeH: 'test,tester,testing',
+                                    formInline: true
+                                }}
+                            />
+                            
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'text',
+                                    textI: 'Meta Title',
+                                    placeH: 'testiiiing',
                                     formInline: true
                                 }}
                             />
@@ -258,24 +264,26 @@ export default function NewProject() {
                                 <div className='repeatableWrap flex flex-col gap-3 mb-5'>
                                     <div id="usefullink" className='inputRow flex items-center gap-20'>
                                         <div className="inputSingle">
-                                            <InputF 
+                                            <InputD 
                                                 fieldElement={{
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 1',
-                                                    placeH: '/testing',
+                                                    placeH: 'testing',
+                                                    placeH2: '/testing',
                                                     formInline: true
                                                 }}
                                             />
                                         </div>
 
                                         <div className="inputSingle">
-                                            <InputF 
+                                            <InputD 
                                                 fieldElement={{
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Link 2',
-                                                    placeH: '/tester',
+                                                    placeH: 'testing',
+                                                    placeH2: '/testing',
                                                     formInline: true
                                                 }}
                                             />
@@ -289,6 +297,31 @@ export default function NewProject() {
                                 >
                                     Add Useful Links
                                 </button>
+
+                                <h2 className='mt-6'>Social Links</h2>
+                                <div className='repeatableSection'>
+                                    <div className='repeatableWrap flex flex-col gap-3 mb-5'>
+                                        <div id="social" className='inputRow flex items-center gap-20'>
+                                            <InputD 
+                                                fieldElement={{
+                                                    typeI: 'input',
+                                                    inputT: 'text',
+                                                    textI: 'Social 1',
+                                                    placeH: 'Instagram',
+                                                    placeH2: 'https://www.instagram.com/omnilawpc/',
+                                                    formInline: true
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={handleClick}
+                                        type="button"
+                                        className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
+                                    >
+                                        Add Social
+                                    </button>
+                                </div>
                                 <InputF 
                                     fieldElement={{
                                         typeI: 'input',
@@ -300,9 +333,22 @@ export default function NewProject() {
                                 />
                             </div>
 
+                            <TextA 
+                                fieldElement={{
+                                    typeI: 'textarea',
+                                    textI: 'Hidden Section',
+                                    placeH: 'This section will be hidden',
+                                    rows: 8
+                                }}
+                            />
+
                         </div>
                     </div>
                 </div>
+
+                <p aria-live="polite" className="">
+                    {state?.message}
+                </p>
 
                 <div className="flex items-center gap-x-6">
                     <button onClick={() => router.back()} type="button" className="rounded-md border-2 px-3 py-2 border-red-600 hover:border-red-400 hover:bg-red-400 hover:text-white transition-all">
@@ -318,7 +364,10 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        onClick={handleDownload}
+                        onClick={() => {
+                            setHandleButton(true);
+                        }}
+                        //onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
                         {isLoading ? 'Saving and Exporting...' : 'Save & Export'}
