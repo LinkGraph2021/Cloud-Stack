@@ -2,7 +2,7 @@
 import { readFileSync } from 'fs';
 import path from 'path';
  
-export async function htmlLayout(formData: FormData) {
+export async function htmlLayout(rawFormData:any) {
      var cpath = 'https://cloud-stack-delta.vercel.app/static/htmls/';
     // if( process.env.NODE_ENV == 'development' ){
     //     cpath = './public/static/htmls/all.css';
@@ -15,41 +15,40 @@ export async function htmlLayout(formData: FormData) {
     var videoCode = '';
     var linkCode = '';
     var socialCode = '';
-    for (let index = 1; index <= Number(formData.get('faqc')); index++) {
-        const element = formData.get('question-'+index);
+    rawFormData.faqs.forEach((faq:any) => {
         faqCode += 
             '<div class="card mb-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">'+
                 '<div class="card-header" role="tab">'+
                     '<button class="panel-title">'+
-                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">'+formData.get("question-"+index)+'</h3>'+
+                        '<h3 class="mbr-fonts-style mb-0 display-7" itemprop="name">'+faq.title+'</h3>'+
                         '<span class="dashicons dashicons-arrow-down-alt2"></span>'+
                     '</button>'+
                 '</div>'+
                 '<div class="panel-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">'+
-                    '<div itemprop="text">'+formData.get("answer-"+index)+'</div>'+
+                    '<div itemprop="text">'+faq.description+'</div>'+
                 '</div>'+
             '</div>';
-    }
+    });
 
-    for(let index = 2; index <= Number(formData.get("videoc")); index++){
+    rawFormData.videos.slice(1).forEach((video:any) => {
         videoCode += '<div class="video-wrapper video-big">'+
             '<iframe '+
                 'class="mbr-embedded-video" '+
-                'src='+formData.get("video-"+index)+' '+
+                'src='+video.url+' '+
                 'width="1280" '+
                 'height="720" '+
                 'allowfullscreen="" '+
             '></iframe>'+
         '</div>';
-    }
+    });
 
-    for(let index = 1; index <= Number(formData.get("linkc")); index++){
-        linkCode += '<li class="mb-2"><a href="'+formData.get("link-link-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("label-link-"+index)+'</a></li>';
-    }
+    rawFormData.links.forEach((link:any) => {
+        linkCode += '<li class="mb-2"><a href="'+link.url+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+link.text+'</a></li>';
+    });
 
-    for(let index = 1; index <= Number(formData.get("socialc")); index++){
-        socialCode += '<li class="mb-2"><a href="'+formData.get("link-social-"+index)+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("label-social-"+index)+'</a></li>';
-    }
+    rawFormData.socials.forEach((social:any) => {
+        socialCode += '<li class="mb-2"><a href="'+social.url+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+social.text+'</a></li>';
+    });
 
     const rawHTML = ' '+
         '<!DOCTYPE html>'+
@@ -60,9 +59,9 @@ export async function htmlLayout(formData: FormData) {
                 '<link rel="apple-touch-icon" sizes="180x180" href="/favicon/searchatlas-favicon-1.png" />'+
                 '<link rel="icon" type="image/png" sizes="32x32" href="/favicon/searchatlas-favicon-1.png" />'+
                 '<link rel="icon" type="image/png" sizes="16x16" href="/favicon/searchatlas-favicon-1.png" />'+
-                '<title>'+formData.get("main-header-(h1)")+'</title>'+
-                '<meta name="description" content="'+formData.get("meta-description-(150-characters)")+'" />'+
-                '<meta name="keywords" content="'+formData.get("keywords")+'" />'+
+                '<title>'+rawFormData.name+'</title>'+
+                '<meta name="description" content="'+rawFormData.mtitle+'" />'+
+                '<meta name="keywords" content="'+rawFormData.mdescription+'" />'+
                 '<meta name="next-head-count" content="16" />'+
                 '<link rel="manifest" href="/favicon/site.webmanifest" />'+
                 '<meta name="msapplication-TileColor" content="#000000" />'+
@@ -334,7 +333,7 @@ export async function htmlLayout(formData: FormData) {
                             '<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg px-0">'+
                                 '<div class="container">'+
                                     '<div class="navbar-brand">'+
-                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">'+formData.get("name-of-project")+'</a></span>'+
+                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">'+rawFormData.name+'</a></span>'+
                                     '</div>'+
                                 '</div>'+
                             '</nav>'+
@@ -345,8 +344,8 @@ export async function htmlLayout(formData: FormData) {
                         '<section class="flex-col md:flex-row flex items-center header1 cid-t9fGBrS5Op mbr-fullscreen">'+
                             '<div class="container flex md:flex-row flex-col">'+
                                 '<div class="flex-1">'+
-                                    '<h1 class="text-6xl font-bold tracking-tighter leading-tight md:pr-8 mbr-section-title mbr-fonts-style mb-3 display-1">'+formData.get("main-header-(h1)")+'</h1>'+
-                                    '<p>'+formData.get("description")+'</p>'+
+                                    '<h1 class="text-6xl font-bold tracking-tighter leading-tight md:pr-8 mbr-section-title mbr-fonts-style mb-3 display-1">'+rawFormData.h1+'</h1>'+
+                                    '<p>'+rawFormData.description+'</p>'+
                                 '</div>'+
                                 '<div class="flex-1"><img src="images/hero-image-3.webp" alt="hero"></div>'+
                             '</div>'+
@@ -377,7 +376,7 @@ export async function htmlLayout(formData: FormData) {
                                         '<div class="video-wrapper video-big">'+
                                             '<iframe '+
                                                 'class="mbr-embedded-video" '+
-                                                'src='+formData.get("video-1")+' '+
+                                                'src='+rawFormData.videos[0].url+' '+
                                                 'width="1280" '+
                                                 'height="720" '+
                                                 'allowfullscreen="" '+
@@ -394,7 +393,7 @@ export async function htmlLayout(formData: FormData) {
                             '<div class="container">'+
                                 '<div class="sub-1">Location</div>'+
                                 '<h2 class="display-2 display-bspe-legal">BSPE Legal Marketing</h2>'+
-                                '<div>'+formData.get("address")+'</div>'+
+                                '<div>'+rawFormData.location+'</div>'+
                             '</div>'+
                         '</section>'+
                     '</main>'+
@@ -407,7 +406,7 @@ export async function htmlLayout(formData: FormData) {
                                             '<h5 class="text-lg font-bold mb-2">SearchAtlas</h5>'+
                                             '<ul class="list-decimal pl-5">'+
                                                 '<li class="mb-2">Company Website:</li>'+
-                                                '<li><a href="'+formData.get("company-link")+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+formData.get("name-of-project")+'</a></li>'+
+                                                '<li><a href="'+rawFormData.clink+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+rawFormData.name+'</a></li>'+
                                             '</ul>'+
                                         '</div>'+
                                         '<div class="w-full md:w-1/3 px-4">'+
@@ -434,7 +433,7 @@ export async function htmlLayout(formData: FormData) {
                                                         '</button>'+
                                                     '</div>'+
                                                     '<div class="panel-body">'+
-                                                        formData.get('hidden-section')+
+                                                        rawFormData.hsection+
                                                     '</div>'+
                                                 '</div>'+
                                             '</div>'+
