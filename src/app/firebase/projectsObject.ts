@@ -29,7 +29,7 @@ export const getProject = async (projectID: any) => {
     }
 };
 
-export const setProject = async ( rawData:any, pathUrl:any ) => {
+export const setProject = async ( rawData:any, pathUrl:any, pathFile:string ) => {
     try {
         await setDoc(doc(db, "projects", rawData.name), {
             name: rawData.name,
@@ -46,7 +46,8 @@ export const setProject = async ( rawData:any, pathUrl:any ) => {
             socials: rawData.socials,
             clink: rawData.clink,
             hsection: rawData.hsection,
-            imgf: pathUrl
+            imgf: pathUrl ? pathUrl : null,
+            fileU: pathFile? `${pathFile}/${rawData.url}.html`: null
         });
 
         return ('correct');

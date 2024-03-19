@@ -65,11 +65,6 @@ export default function NewProject() {
     const [error, setError] = useState<string | null>(null)
 
     const [state, formAction] = useFormState( projectAction, initialState );
-    
-    // const handleChange = (e:any) => {
-    //     const image = e.target.files[0];
-    //     uploadImageToFirebase(image);
-    // };
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
@@ -364,7 +359,6 @@ export default function NewProject() {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        //onClick={handleDownload}
                         className="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
                         {isLoading ? 'Saving and Exporting...' : 'Save & Export'}

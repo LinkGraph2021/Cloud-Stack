@@ -1,5 +1,6 @@
 'use client';
 import { createHtml } from '@/app/actions';
+import { uploadHtml } from '@/app/general/uploadHtml';
 import { downloadHtml } from '@/app/general/downloadHtml';
 import { setProject } from  '@/app/firebase/projectsObject';
 import uploadImageToFirebase from '@/app/firebase/uploadImage';
@@ -53,14 +54,19 @@ export async function projectAction(prevState: any, formData: FormData) {
       socials: socialCode,
       clink: formData.get('company-link'),
       hsection: formData.get('hidden-section'),
+      
     }
     var pathUrl = 'project/'+ rawFormData.name;
-    var pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
+    var pathImg = null;
     //console.log( pathUrl );
     const rawHtml = await createHtml(rawFormData);
-    downloadHtml(rawHtml?.response, rawFormData.url);
-    uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
-    setProject( rawFormData, pathImg );
+    uploadHtml(rawHtml?.response, rawFormData.url, pathUrl);
+    downloadHtml(rawHtml?.response, rawFormData.url, pathUrl);
+    if( (formData.get('img-featured') as File)?.name ){
+      uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
+      pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
+    }
+    setProject( rawFormData, pathImg, pathUrl );
 
     return {
         success: true,
