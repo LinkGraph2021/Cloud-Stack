@@ -1,7 +1,9 @@
 'use client';
 import { createHtml } from '@/app/actions';
+import { htmlLayout } from '@/app/general/htmlLayout';
 import { uploadHtml } from '@/app/general/uploadHtml';
 import { downloadHtml } from '@/app/general/downloadHtml';
+import { uploadServer } from '@/app/servers/uploadServer';
 import { setProject } from  '@/app/firebase/projectsObject';
 import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
@@ -9,34 +11,50 @@ import uploadImageToFirebase from '@/app/firebase/uploadImage';
 export async function projectAction(prevState: any, formData: FormData) {
 
     let faqCode: { title: any; description: any }[] = [];
-    for (let index = 1; index <= Number(formData.get('faqc')); index++) {
-      faqCode.push({
-        title: formData.get("question-"+index),
-        description: formData.get("answer-"+index),
-      });
+    if( Number(formData.get('faqc')) > 0 ){
+      for (let index = 1; index <= Number(formData.get('faqc')); index++) {
+        if( formData.get("question-"+index) ){
+          faqCode.push({
+            title: formData.get("question-"+index),
+            description: formData.get("answer-"+index),
+          });
+        }
+      }
     }
   
     let videoCode: { url: any; }[] = [];
-    for(let index = 1; index <= Number(formData.get("videoc")); index++){
-      videoCode.push({
-        url: formData.get("video-"+index)
-      });
+    if( Number(formData.get("videoc")) > 0 ){
+      for(let index = 1; index <= Number(formData.get("videoc")); index++){
+        if( formData.get("video-"+index) ){
+          videoCode.push({
+            url: formData.get("video-"+index)
+          });
+        }
+      }
     }
   
     let linkCode: { url: any; text: any }[] = [];
-    for(let index = 1; index <= Number(formData.get("linkc")); index++){
-      linkCode.push({
-        url: formData.get("link-link-"+index),
-        text: formData.get("label-link-"+index)
-      })
+    if( Number(formData.get("linkc")) > 0 ){
+      for(let index = 1; index <= Number(formData.get("linkc")); index++){
+        if( formData.get("label-link-"+index) && formData.get("label-link-"+index) ){
+          linkCode.push({
+            url: formData.get("link-link-"+index) ? formData.get("link-link-"+index) : '#',
+            text: formData.get("label-link-"+index)
+          })
+        }
+      }
     }
   
     let socialCode: { url: any; text: any }[] = [];
-    for(let index = 1; index <= Number(formData.get("socialc")); index++){
-      socialCode.push({
-        url: formData.get("link-social-"+index),
-        text: formData.get("label-social-"+index)
-      })
+    if( Number(formData.get("socialc")) > 0 ){
+      for(let index = 1; index <= Number(formData.get("socialc")); index++){
+        if( formData.get("link-social-"+index) && formData.get("label-social-"+index) ){
+          socialCode.push({
+            url: formData.get("link-social-"+index) ? formData.get("link-social-"+index) : '#',
+            text: formData.get("label-social-"+index)
+          })
+        }
+      }
     }
   
     const rawFormData = {
@@ -54,19 +72,17 @@ export async function projectAction(prevState: any, formData: FormData) {
       socials: socialCode,
       clink: formData.get('company-link'),
       hsection: formData.get('hidden-section'),
-      
     }
     var pathUrl = 'project/'+ rawFormData.name;
     var pathImg = null;
-    //console.log( pathUrl );
-    const rawHtml = await createHtml(rawFormData);
-    uploadHtml(rawHtml?.response, rawFormData.url, pathUrl);
-    downloadHtml(rawHtml?.response, rawFormData.url);
-    if( (formData.get('img-featured') as File)?.name ){
-      uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
-      pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
-    }
+    //const rawHtml = await createHtml(rawFormData, pathUrl);
+    var urlImg = await uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
+    pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
+    const rawHtml = await htmlLayout(rawFormData, urlImg);
+    var uploadURL = await uploadHtml(rawHtml, rawFormData.url, pathUrl);
+    downloadHtml(rawHtml, rawFormData.url);
     setProject( rawFormData, pathImg, pathUrl );
+    uploadServer( uploadURL );
 
     return {
         success: true,
