@@ -6,9 +6,11 @@ export async function uploadHtml(response:any, fileName:any, pathUrl:string) {
         const blob = new Blob([response], { type: 'text/html' });
         const storageRef = storage.ref();
         const fileRef = storageRef.child(`${pathUrl}/${fileName}.html`);
-        await fileRef.put(blob);
         console.log('Text uploaded successfully!');
+        await fileRef.put(blob);
+        return await fileRef.getDownloadURL();
     } catch (error) {
         console.error('Error uploading text:', error);
+        return error;
     }
 }
