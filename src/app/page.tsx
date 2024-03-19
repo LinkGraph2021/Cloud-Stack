@@ -1,26 +1,12 @@
 'use client'
-import BasicForm from '@/components/BasicForm';
 import { useState, useEffect } from 'react';
 import { auth } from '@/app/firebase';
-import useAuthState from '@/app/profile';
 
 export default function Home() {
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const user = useAuthState();
-
-  useEffect(() => {
-    if (user) {
-      // User is logged in
-      console.log('User is logged in:', user.email);
-    } else {
-      // User is logged out
-      console.log('User is logged out');
-    }
-  }, [user]);
 
   const handleLogin = async () => {
     try {
@@ -44,11 +30,7 @@ export default function Home() {
   return (
     <main className="container">
       <div className="flex flex-col justify-center min-h-80vh py-5">
-        {user ?
-          <><h1>Log In</h1></>
-          :
-          <><h1>Register</h1></>
-        }
+        <h1>Log In</h1>
         
         <div className='flex flex-col gap-28 pb-44'>
           <form className='w-full flex flex-col justify-center' action={handleSignup}>
