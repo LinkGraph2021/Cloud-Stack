@@ -30,7 +30,7 @@ export default function InputF( {fieldElement}:InputObj ) {
                         id={fieldElement.textI.replaceAll(' ', '-').toLowerCase()}
                         autoComplete={fieldElement.inputT}
                         className="block flex-1 border-0 bg-transparent py-1.5 px-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:sm:leading-6"
-                        defaultValue={fieldElement.placeH ? fieldElement.placeH : fieldElement.textI}
+                        defaultValue={fieldElement.placeH ? fieldElement.placeH : ''}
                         placeholder={fieldElement.placeH ? fieldElement.placeH : fieldElement.textI}
                     />
                 </div>
