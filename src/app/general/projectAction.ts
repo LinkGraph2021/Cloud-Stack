@@ -61,7 +61,7 @@ export async function projectAction(prevState: any, formData: FormData) {
     //console.log( pathUrl );
     const rawHtml = await createHtml(rawFormData);
     uploadHtml(rawHtml?.response, rawFormData.url, pathUrl);
-    downloadHtml(rawHtml?.response, rawFormData.url, pathUrl);
+    downloadHtml(rawHtml?.response, rawFormData.url);
     if( (formData.get('img-featured') as File)?.name ){
       uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
       pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
