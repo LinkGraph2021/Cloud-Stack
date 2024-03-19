@@ -3,14 +3,14 @@ import { writeFileSync } from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { htmlLayout } from '@/app/general/htmlLayout'
  
-export async function createHtml(rawFormData:any) {
+export async function createHtml(rawFormData:any, pathUrl:any) {
   
 
   var cpath = 'https://cloud-stack-delta.vercel.app';
   if( process.env.NODE_ENV == 'development' ){
     cpath = './public/';
   }
-  var htmlResponse =  await htmlLayout(rawFormData);
+  var htmlResponse =  await htmlLayout(rawFormData, pathUrl);
 
   try {
     writeFileSync(`${cpath}/static/htmls/${rawFormData.name}.html`, htmlResponse);
