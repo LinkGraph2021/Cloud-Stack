@@ -1,9 +1,10 @@
 'use server'
 import { readFileSync } from 'fs';
 import path from 'path';
+import { storage } from '@/app/firebase';
  
-export async function htmlLayout(rawFormData:any) {
-     var cpath = 'https://cloud-stack-delta.vercel.app/static/htmls/';
+export async function htmlLayout(rawFormData:any, pathImg:any) {
+    var cpath = 'https://cloud-stack-delta.vercel.app/static/htmls/';
     // if( process.env.NODE_ENV == 'development' ){
     //     cpath = './public/static/htmls/all.css';
     // }else if( process.env.NODE_ENV == 'production' ){
@@ -50,7 +51,7 @@ export async function htmlLayout(rawFormData:any) {
         socialCode += '<li class="mb-2"><a href="'+social.url+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+social.text+'</a></li>';
     });
 
-    const rawHTML = ' '+
+    var rawHTML = ' '+
         '<!DOCTYPE html>'+
         '<html lang="en">'+
             '<head>'+
@@ -347,7 +348,7 @@ export async function htmlLayout(rawFormData:any) {
                                     '<h1 class="text-6xl font-bold tracking-tighter leading-tight md:pr-8 mbr-section-title mbr-fonts-style mb-3 display-1">'+rawFormData.h1+'</h1>'+
                                     '<p>'+rawFormData.description+'</p>'+
                                 '</div>'+
-                                '<div class="flex-1"><img src="images/hero-image-3.webp" alt="hero"></div>'+
+                                '<div class="flex-1"><img src="'+pathImg+'" alt="hero"></div>'+
                             '</div>'+
                         '</section>'+
                         '<section class="content16 cid-tNbUWJTv2K">'+
@@ -364,32 +365,34 @@ export async function htmlLayout(rawFormData:any) {
                                     '</div>'+
                                 '</div>'+
                             '</div>'+
-                        '</section>'+
-                        '<section class="video2 cid-t9j5IJrIY6">'+
-                            '<div class="container">'+
-                                '<div class="row flex flex-wrap justify-content-center mt-4">'+
-                                    '<div class="col-12">'+
-                                        '<div class="sub-1">Learn more on this section</div>'+
-                                        '<h2 class="display-2 mb-6">Video Section</h2>'+
-                                    '</div>'+
-                                    '<div class="col-12 lg:col-8 video-left video-block">'+
-                                        '<div class="video-wrapper video-big">'+
-                                            '<iframe '+
-                                                'class="mbr-embedded-video" '+
-                                                'src='+rawFormData.videos[0].url+' '+
-                                                'width="1280" '+
-                                                'height="720" '+
-                                                'allowfullscreen="" '+
-                                            '></iframe>'+
+                        '</section>';
+                        if( rawFormData.videos.length > 0 ){
+                            rawHTML += '<section class="video2 cid-t9j5IJrIY6">'+
+                                '<div class="container">'+
+                                    '<div class="row flex flex-wrap justify-content-center mt-4">'+
+                                        '<div class="col-12">'+
+                                            '<div class="sub-1">Learn more on this section</div>'+
+                                            '<h2 class="display-2 mb-6">Video Section</h2>'+
+                                        '</div>'+
+                                        '<div class="col-12 lg:col-8 video-left video-block">'+
+                                            '<div class="video-wrapper video-big">'+
+                                                '<iframe '+
+                                                    'class="mbr-embedded-video" '+
+                                                    'src='+rawFormData?.videos[0]?.url+' '+
+                                                    'width="1280" '+
+                                                    'height="720" '+
+                                                    'allowfullscreen="" '+
+                                                '></iframe>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="col-12 lg:col-4 video-right video-block video-multiple">'+
+                                            videoCode+
                                         '</div>'+
                                     '</div>'+
-                                    '<div class="col-12 lg:col-4 video-right video-block video-multiple">'+
-                                        videoCode+
-                                    '</div>'+
                                 '</div>'+
-                            '</div>'+
-                        '</section>'+
-                        '<section id="custom-html-o">'+
+                            '</section>';
+                        }
+                        rawHTML += '<section id="custom-html-o">'+
                             '<div class="container">'+
                                 '<div class="sub-1">Location</div>'+
                                 '<h2 class="display-2 display-bspe-legal">BSPE Legal Marketing</h2>'+
@@ -403,24 +406,29 @@ export async function htmlLayout(rawFormData:any) {
                                 '<div class="container mx-auto px-4">'+
                                     '<div class="flex flex-wrap">'+
                                         '<div class="w-full md:w-1/3 px-4">'+
-                                            '<h5 class="text-lg font-bold mb-2">SearchAtlas</h5>'+
+                                            '<h5 class="text-lg font-bold mb-2">Company Website:</h5>'+
                                             '<ul class="list-decimal pl-5">'+
-                                                '<li class="mb-2">Company Website:</li>'+
                                                 '<li><a href="'+rawFormData.clink+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+rawFormData.name+'</a></li>'+
                                             '</ul>'+
                                         '</div>'+
-                                        '<div class="w-full md:w-1/3 px-4">'+
-                                            '<h5 class="text-lg font-bold mb-2">Useful Links</h5>'+
-                                            '<ul class="list-decimal pl-5">'+
-                                                linkCode+
-                                            '</ul>'+
-                                        '</div>'+
-                                        '<div class="w-full md:w-1/3 px-4">'+
-                                            '<h5 class="text-lg font-bold mb-2">Follow us on Social Media</h5>'+
-                                            '<ul class="list-decimal pl-5">'+
-                                                socialCode+
-                                            '</ul>'+
-                                        '</div>'+
+                                        '<div class="w-full md:w-1/3 px-4">';
+                                            if( linkCode ){
+                                                rawHTML += 
+                                                '<h5 class="text-lg font-bold mb-2">Useful Links</h5>'+
+                                                '<ul class="list-decimal pl-5">'+
+                                                    linkCode+
+                                                '</ul>';
+                                            }
+                            rawHTML += '</div>'+
+                                        '<div class="w-full md:w-1/3 px-4">';
+                                            if( socialCode ){
+                                                rawHTML += 
+                                                '<h5 class="text-lg font-bold mb-2">Follow us on Social Media</h5>'+
+                                                '<ul class="list-decimal pl-5">'+
+                                                    socialCode+
+                                                '</ul>';
+                                            }
+                            rawHTML += '</div>'+
                                     '</div>'+
                                     '<div class="row justify-content-center" hidden>'+
                                         '<div class="col-12 col-md-10">'+
