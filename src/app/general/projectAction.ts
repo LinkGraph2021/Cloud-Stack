@@ -3,7 +3,7 @@ import { createHtml } from '@/app/actions';
 import { htmlLayout } from '@/app/general/htmlLayout';
 import { uploadHtml } from '@/app/general/uploadHtml';
 import { downloadHtml } from '@/app/general/downloadHtml';
-import { uploadServer } from '@/app/servers/uploadServer';
+// import { uploadServer } from '@/app/servers/uploadServer';
 import { setProject } from  '@/app/firebase/projectsObject';
 import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
@@ -82,7 +82,7 @@ export async function projectAction(prevState: any, formData: FormData) {
     var uploadURL = await uploadHtml(rawHtml, rawFormData.url, pathUrl);
     downloadHtml(rawHtml, rawFormData.url);
     setProject( rawFormData, pathImg, pathUrl );
-    uploadServer( uploadURL );
+    //uploadServer( uploadURL );
 
     return {
         success: true,
