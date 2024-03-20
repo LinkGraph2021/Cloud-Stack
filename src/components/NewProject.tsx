@@ -70,8 +70,6 @@ export default function NewProject() {
         <div className='flex flex-col gap-28 pb-44'>
             <form className='w-full flex flex-col justify-center' action={formAction}>
 
-                <input accept="image/png,image/jpeg" name="img-featured" id="img-featured" type='file' />
-
                 <div className="space-y-12">
                     <div className="pb-12">
                         <div className="mt-10 flex flex-col gap-4">
@@ -110,6 +108,15 @@ export default function NewProject() {
                                     textI: 'socialc',
                                     placeH: handleSocial,
                                     formInline: true,
+                                }}
+                            />
+
+                            <InputF 
+                                fieldElement={{
+                                    typeI: 'input',
+                                    inputT: 'file',
+                                    textI: 'Img Featured',
+                                    formInline: true
                                 }}
                             />
 
