@@ -3,7 +3,7 @@ import { createHtml } from '@/app/actions';
 import { htmlLayout } from '@/app/general/htmlLayout';
 import { uploadHtml } from '@/app/general/uploadHtml';
 import { downloadHtml } from '@/app/general/downloadHtml';
-// import { uploadServer } from '@/app/servers/uploadServer';
+import { uploadServer } from '@/app/servers/uploadServer';
 import { setProject } from  '@/app/firebase/projectsObject';
 import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
@@ -76,19 +76,36 @@ export async function projectAction(prevState: any, formData: FormData) {
     var pathUrl = 'project/'+ rawFormData.name;
     var pathImg = null;
     //const rawHtml = await createHtml(rawFormData, pathUrl);
-    var urlImg = await uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
-    pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
-    const rawHtml = await htmlLayout(rawFormData, urlImg);
-    var uploadURL = await uploadHtml(rawHtml, rawFormData.url, pathUrl);
-    downloadHtml(rawHtml, rawFormData.url);
-    setProject( rawFormData, pathImg, pathUrl );
-    //uploadServer( uploadURL );
+    var isLoading = false;
 
-    return {
+    try {
+      var urlImg = await uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
+      pathImg = pathUrl+'/'+(formData.get('img-featured') as File)?.name;
+      const rawHtml = await htmlLayout(rawFormData, urlImg);
+      var uploadURL = await uploadHtml(rawHtml, rawFormData.url, pathUrl);
+      downloadHtml(rawHtml, rawFormData.url);
+      setProject( rawFormData, pathImg, pathUrl );
+      await setProject( rawFormData, pathImg, pathUrl );
+      uploadServer( uploadURL );
+      isLoading = true;
+      return{
+        success: false,
+        message: 'loading',
+        loading: isLoading,
+      }
+    } catch (error) {
+      isLoading = false;
+      return {
+        success: false,
+        message: 'error',
+        loading: isLoading,
+      }
+    }finally{
+      isLoading = false;
+      return {
         success: true,
-        rawData: 'rawFormData',
-        fileName: 'rawFormData.name',
-        response: 'htmlResponse',
-        message :'Done'
+        message: 'All Done',
+        loading: isLoading,
+      }
     }
 }
