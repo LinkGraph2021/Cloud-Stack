@@ -55,10 +55,8 @@ export default function NewProject() {
     
     const initialState = {
         success: false,
-        fileName: '',
-        rawData: '',
-        response: '',
         message: '',
+        loading: false,
     }
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -68,7 +66,7 @@ export default function NewProject() {
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
-            <form className='w-full flex flex-col justify-center' action={formAction}>
+            <form id="projectForm" className='w-full flex flex-col justify-center' action={formAction}>
 
                 <div className="space-y-12">
                     <div className="pb-12">
@@ -357,7 +355,7 @@ export default function NewProject() {
                         Back
                     </button>
                     <button
-                        disabled={isLoading}
+                        disabled={!state?.success ? true:false}
                         type="submit"
                         className="rounded-md border-2 border-indigo-600 px-3 py-2 font-semibold text-indigo-600 shadow-sm hover:text-white hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all"
                     >
