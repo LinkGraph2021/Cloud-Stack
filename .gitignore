@@ -38,3 +38,4 @@ next-env.d.ts
 /src/app/htmls/*
 !/src/app/htmls/test.html
 !/src/app/htmls/all.css
+.env.local

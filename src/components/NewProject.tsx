@@ -1,14 +1,14 @@
 
 'use client';
-import {useState} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import {useFormState} from 'react-dom'
 import { useRouter } from 'next/navigation'
 import InputF from '@/components/FormFields/InputF';
 import InputD from '@/components/FormFields/InputD';
 import TextA from '@/components/FormFields/TextA';
 import { projectAction } from '@/app/general/projectAction';
-import uploadImageToFirebase from '@/app/firebase/uploadImage';
 
+import QuillEditor from '@/components/FormFields/QuillEditor';
 
 
 export default function NewProject() {
@@ -32,10 +32,11 @@ export default function NewProject() {
         }
 
         if( duplicateI.length > 0 ){
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social|questionr)( |-)\d+(?!\d)(?<=[13579])/gi, "$1$2"+(duplicateLength+1));
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social|questionr)( |-)\d+(?!\d)(?<=[02468])/gi, "$1$2"+(duplicateLength+2));
         }else{
-            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social|questionr)( |-)[0-9]/gi, "$1$2"+duplicateLength);
+            clone.innerHTML = clone.innerHTML.replace(/(question|answer|video|link|social|questionr)( |-)[0-9]/gi, "$1$2"+duplicateLength);
         }
         clone.id = duplicateObj[0].id+duplicateLength;
         row[0].appendChild(clone);
@@ -63,6 +64,12 @@ export default function NewProject() {
     const [error, setError] = useState<string | null>(null)
 
     const [state, formAction] = useFormState( projectAction, initialState );
+
+    const [content, setContent] = useState('');
+
+    const handleEditorChange = (value:any) => {
+        setContent(value);
+    };
 
     return (
         <div className='flex flex-col gap-28 pb-44'>
@@ -201,7 +208,6 @@ export default function NewProject() {
                                                 formInline: true
                                             }}
                                         />
-                                        
                                         <InputF 
                                             fieldElement={{
                                                 typeI: 'input',
@@ -211,6 +217,7 @@ export default function NewProject() {
                                                 formInline: true
                                             }}
                                         />
+                                        {/* <QuillEditor onChange={handleEditorChange} placeH="checking" idM="questionr-1"/> */}
                                     </div>
                                 </div>
                                 <button

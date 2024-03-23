@@ -1,56 +1,95 @@
-'use server'
-import axios, {isCancel, AxiosError} from 'axios';
-import { Readable } from 'stream';
-import {firebase} from '@/app/firebase';
-import FormData from 'form-data';
-import fs from 'fs';
-import path from 'path';
 
+'use client';
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { db, storage } from '@/app/firebase';
+import axios from 'axios';
+import type { InferGetStaticPropsType, GetStaticProps } from 'next'
 
-export async function uploadServer(fileURL: any) {
+export async function uploadServer(fileContent:any, nameP:any, fileURL:any, fileName:any) {
+  const blob = new Blob([fileContent], { type: 'text/html' });
+  const data = new FormData();
+  var serverurls = [];
+  for (const server of allServers) {
+    try {
+      data.append('username', server.username);
+      data.append('password', server.password);
+      data.append('type', server.type);
+      data.append('endpoint_url', server.endpoint);
+      data.append('bucket_name', server.bucket_name);
+      data.append('file', blob, `${fileName}.html`);
+    
+      const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://api.searchatlas.com/api/customer/admin/cloud-stack/',
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the Content-Type header
+        },
+        data: data,
+      };
+      
+      const response = await axios.request(config);
 
-  let data = new FormData();
-  console.log( fileURL );
-  var testURL = 'gs://cloud-sites-a5621.appspot.com/project/Test1/Image-2.png'
-  const readableStream = await createReadStreamFromUrl(fileURL);
-  data.append('username', 'TC3JZ08JK2O1C1PGKQ70');
-  data.append('password', 'X2Wlciv7zDyVTRfrvMEMJWBCk212lXe2YFcbPnVe');
-  data.append('type', 'wasabi');
-  data.append('endpoint_url', 'https://s3.us-central-1.wasabisys.com');
-  data.append('bucket_name', 'lg-cloud-stack');
-  //data.append('file', fs.createReadStream('/Users/IGNITER/Downloads/test.html'));
-  data.append('file', readableStream);
-  data.append('file_name', 'test.html');
-  
-  let config = {
-    method: 'post',
-    maxBodyLength: Infinity,
-    url: 'https://api.searchatlas.com/api/customer/admin/cloud-stack/',
-    headers: { 
-      ...data.getHeaders()
-    },
-    data : data
-  };
-  
-  axios.request(config)
-  .then((response) => {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-}
+      serverurls.push(response.data.url)
 
-async function createReadStreamFromUrl(url:any) {
-  try {
-    const response = await axios.get(url, { responseType: 'stream' });
-
-    // Create a readable stream from the response data
-    const readableStream = response.data;
-
-    return readableStream;
-  } catch (error) {
-    console.error('Error fetching file from URL:', error);
-    throw error;
+      console.log(server.type,' - ',JSON.stringify(response.data.url));
+    }catch (error) {
+      console.error('Error:', error);
+    }
   }
+
+  // setDoc(doc(db, "projects", nameP), {
+  //   server: serverurls
+  // });
+
+  try {
+    const washingtonRef = doc(db, "projects", nameP);
+    await updateDoc(washingtonRef, {
+      server: serverurls
+    });
+    console.log('All servers done');
+  } catch (error) {
+    console.log( error );
+  }
+
+
 }
+
+interface Server {
+  username: string;
+  password: string;
+  type: 'wasabi' | 'exoscale' | 'contabo' | 'AWS'; // Define valid types
+  endpoint: string;
+  bucket_name: string;
+}
+
+const allServers: Server[] = [
+  {
+      username: process.env.WASABIusername!,
+      password: process.env.WASABIpassword!,
+      type: 'wasabi',
+      endpoint: 'https://s3.us-central-1.wasabisys.com',
+      bucket_name: 'lg-cloud-stack'
+  },
+  {
+      username: process.env.EXOSCALEusername!,
+      password: process.env.EXOSCALEpassword!,
+      type: 'exoscale',
+      endpoint: 'https://sos-de-fra-1.exo.io',
+      bucket_name: 'lg-cloud-stack'
+  },
+  {
+      username: process.env.CONTABOusername!,
+      password: process.env.CONTABOpassword!,
+      type: 'contabo',
+      endpoint: 'https://usc1.contabostorage.com',
+      bucket_name: 'lg-cloud-stack'
+  },
+  {
+      username: process.env.AWSusername!,
+      password: process.env.AWSpassword!,
+      type: 'AWS',
+      endpoint: 'https://usc1.contabostorage.com', // This seems incorrect, please adjust if necessary
+      bucket_name: 'cloud-stack.searchatlas.com'
+  },
+];

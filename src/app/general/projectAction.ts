@@ -13,10 +13,13 @@ export async function projectAction(prevState: any, formData: FormData) {
     let faqCode: { title: any; description: any }[] = [];
     if( Number(formData.get('faqc')) > 0 ){
       for (let index = 1; index <= Number(formData.get('faqc')); index++) {
+        const element = document.getElementById(`questionr-${index}`);
+        const faqDesc = element?.firstChild instanceof HTMLElement ? element.firstChild.innerHTML : '';
+        //console.log(faqDesc);
         if( formData.get("question-"+index) ){
           faqCode.push({
             title: formData.get("question-"+index),
-            description: formData.get("answer-"+index),
+            description: faqDesc ? faqDesc : formData.get("question-"+index),
           });
         }
       }
@@ -86,7 +89,7 @@ export async function projectAction(prevState: any, formData: FormData) {
       downloadHtml(rawHtml, rawFormData.url);
       setProject( rawFormData, pathImg, pathUrl );
       await setProject( rawFormData, pathImg, pathUrl );
-      uploadServer( uploadURL );
+      uploadServer( rawHtml, rawFormData.name, uploadURL, rawFormData.url );
       isLoading = true;
       return{
         success: false,
