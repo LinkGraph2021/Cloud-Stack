@@ -19,7 +19,7 @@ export async function projectAction(prevState: any, formData: FormData) {
         if( formData.get("question-"+index) ){
           faqCode.push({
             title: formData.get("question-"+index),
-            description: faqDesc ? faqDesc : formData.get("question-"+index),
+            description: faqDesc ? faqDesc : formData.get("answer-"+index),
           });
         }
       }
