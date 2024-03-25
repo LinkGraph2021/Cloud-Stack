@@ -208,7 +208,7 @@ export default function NewProject() {
                                                 formInline: true
                                             }}
                                         />
-                                        <InputF 
+                                        {/* <InputF 
                                             fieldElement={{
                                                 typeI: 'input',
                                                 inputT: 'text',
@@ -216,8 +216,11 @@ export default function NewProject() {
                                                 placeH: 'checking',
                                                 formInline: true
                                             }}
-                                        />
-                                        {/* <QuillEditor onChange={handleEditorChange} placeH="checking" idM="questionr-1"/> */}
+                                        /> */}
+                                        <div className='flex items-center'>
+                                            <label htmlFor="questionr-1" className="min-w-36 block font-medium leading-6 text-gray-900">Question</label>
+                                            <QuillEditor onChange={handleEditorChange} placeH="checking" idM="questionr-1"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <button
@@ -314,8 +317,32 @@ export default function NewProject() {
                                                     typeI: 'input',
                                                     inputT: 'text',
                                                     textI: 'Social 1',
+                                                    placeH: 'Facebook',
+                                                    placeH2: 'https://www.facebook.com/omnilawpc',
+                                                    formInline: true
+                                                }}
+                                            />
+                                        </div>
+                                        <div id="social2" className='inputRow flex items-center gap-20'>
+                                            <InputD 
+                                                fieldElement={{
+                                                    typeI: 'input',
+                                                    inputT: 'text',
+                                                    textI: 'Social 2',
                                                     placeH: 'Instagram',
                                                     placeH2: 'https://www.instagram.com/omnilawpc/',
+                                                    formInline: true
+                                                }}
+                                            />
+                                        </div>
+                                        <div id="social3" className='inputRow flex items-center gap-20'>
+                                            <InputD 
+                                                fieldElement={{
+                                                    typeI: 'input',
+                                                    inputT: 'text',
+                                                    textI: 'Social 3',
+                                                    placeH: 'LinkedIn',
+                                                    placeH2: 'https://www.linkedin.com/company/omni-law-p-c',
                                                     formInline: true
                                                 }}
                                             />
@@ -340,14 +367,18 @@ export default function NewProject() {
                                 />
                             </div>
 
-                            <TextA 
+                            {/* <TextA 
                                 fieldElement={{
                                     typeI: 'textarea',
                                     textI: 'Hidden Section',
                                     placeH: 'This section will be hidden',
                                     rows: 8
                                 }}
-                            />
+                            /> */}
+                            <div>
+                                <label htmlFor="questionr-1" className="min-w-36 block font-medium leading-6 text-gray-900">Question</label>
+                                <QuillEditor onChange={handleEditorChange} placeH="This section will be hidden" idM="hidden-section"/>
+                            </div>
 
                         </div>
                     </div>
