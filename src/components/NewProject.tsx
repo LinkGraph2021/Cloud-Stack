@@ -17,7 +17,7 @@ export default function NewProject() {
     const [handleFaq, setHandleFaq] = useState(1);
     const [handleVideo, setHandleVideo] = useState(1);
     const [handleLink, setHandleLink] = useState(1);
-    const [handleSocial, setHandleSocial] = useState(1);
+    const [handleSocial, setHandleSocial] = useState(3);
     const handleClick = (event:any) => {
         // 👇️ toggle class on click
         var parentE = event.currentTarget.parentElement;
@@ -52,6 +52,8 @@ export default function NewProject() {
             setHandleSocial( duplicateLength );
         }
     };
+
+    console.log(  );
 
     
     const initialState = {
