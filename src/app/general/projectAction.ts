@@ -83,7 +83,8 @@ export async function projectAction(prevState: any, formData: FormData) {
     location: formData.get('address'),
     links: linkCode,
     socials: socialCode,
-    clink: formData.get('company-link'),
+    clink: formData.get('link-company-link'),
+    cname: formData.get('label-company-link'),
     hsection: hSectionT,
   }
   var pathUrl = 'project/'+ rawFormData.name;

@@ -408,7 +408,7 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                                         '<div class="w-full md:w-1/3 px-4">'+
                                             '<h5 class="text-lg font-bold mb-2">Company Website:</h5>'+
                                             '<ul class="list-decimal pl-5">'+
-                                                '<li><a href="'+rawFormData.clink+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+rawFormData.name+'</a></li>'+
+                                                '<li><a href="'+rawFormData.clink+'" class="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">'+rawFormData.cname+'</a></li>'+
                                             '</ul>'+
                                         '</div>'+
                                         '<div class="w-full md:w-1/3 px-4">';

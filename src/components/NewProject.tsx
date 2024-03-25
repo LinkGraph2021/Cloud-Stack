@@ -361,12 +361,13 @@ export default function NewProject() {
                                         Add Social
                                     </button>
                                 </div>
-                                <InputF 
+                                <InputD 
                                     fieldElement={{
                                         typeI: 'input',
                                         inputT: 'text',
                                         textI: 'Company Link',
-                                        placeH: 'https://test.com',
+                                        placeH: 'Testing Company',
+                                        placeH2: 'https://test.com',
                                         formInline: true
                                     }}
                                 />
