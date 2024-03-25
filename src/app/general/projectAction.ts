@@ -64,12 +64,17 @@ export async function projectAction(prevState: any, formData: FormData) {
 
   const projectName = formData.get('name-of-project');
   const fixUrl = typeof projectName === 'string' ? projectName.replace(" ", "-").toLowerCase() : projectName;
+
+  
+  const projectDescription = document.getElementById(`description`);
+  const fixDescription = projectDescription?.firstChild instanceof HTMLElement ? projectDescription.firstChild.innerHTML : '';
+  console.log( fixDescription );
   
   const rawFormData = {
     name: formData.get('name-of-project'),
     h1: formData.get('main-header-(h1)'),
     url: fixUrl,
-    description: formData.get('description'),
+    description: fixDescription,
     keywords: formData.get('keywords'),
     mtitle: formData.get('meta-title'),
     mdescription: formData.get('meta-description-(150-characters)'),

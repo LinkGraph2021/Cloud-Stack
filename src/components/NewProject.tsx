@@ -157,14 +157,19 @@ export default function NewProject() {
                                 />
                             </div>
 
-                            <TextA 
+                            {/* <TextA 
                                 fieldElement={{
                                     typeI: 'textarea',
                                     textI: 'Description',
                                     placeH: 'testing this field to add it on html',
                                     rows: 5
                                 }}
-                            />
+                            /> */}
+
+                            <div>
+                                <label htmlFor="description" className="min-w-36 block font-medium leading-6 text-gray-900">Description</label>
+                                <QuillEditor onChange={handleEditorChange} placeH="testing this field to add it on html" idM="description"/>
+                            </div>
                             
                             <InputF 
                                 fieldElement={{
