@@ -430,10 +430,10 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                                             }
                             rawHTML += '</div>'+
                                     '</div>'+
-                                    '<div class="row justify-content-center" hidden>'+
+                                    '<div class="row justify-content-center">'+
                                         '<div class="col-12 col-md-10">'+
-                                            '<div id="accordion_1" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">'+
-                                                '<div class="mb-3">'+
+                                            '<div id="accordion_2" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">'+
+                                                '<div class="card mb-3">'+
                                                     '<div class="card-header" role="tab">'+
                                                         '<button class="panel-title">'+
                                                             '<h6 class="mbr-fonts-style mb-0 display-7"></h6>'+
@@ -504,6 +504,24 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                         '});'+
                     '});'+
                 ' </script>'+
+                '<style>'+
+                '#accordion_2 .card {'+
+                    'padding: 0;'+
+                    'margin: 0;'+
+                '}'+
+                '#accordion_2 .card .card-header {'+
+                    'padding: 0;'+
+                '}'+
+                '#accordion_2 .card .panel-body {'+
+                    'max-height: 0;'+
+                    'overflow: hidden;'+
+                    'padding: 0 1.25rem;'+
+                '}'+
+                '#accordion_2 .card.activeCard .panel-body {'+
+                    'padding: 0.75rem 1.25rem;'+
+                    'max-height: 1000px;'+
+                '}'+
+                '</style>'+
             '</body>'+
         '</html>'+
     '';
