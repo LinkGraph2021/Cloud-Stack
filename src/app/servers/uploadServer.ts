@@ -11,7 +11,6 @@ export async function uploadServer(fileContent:any, stateServer: any, nameP:any,
   var serverurls = [];
   var numberServ = 0;
   for (const server of stateServer) {
-    console.log( server.username );
     if( server?.selected === "on" ){
       try {
         data.append('username', server?.username);

@@ -62,7 +62,6 @@ export async function projectAction(prevState: any, formData: FormData) {
       }
     }
   }
-  console.log(allServers);
 
   let allservers: { type: any; bucket_name:any; endpoint:any; name:any; password:any; username:any; selected: any }[] = [];
   if( Number(allServers.length) > 0 ){
@@ -85,7 +84,6 @@ export async function projectAction(prevState: any, formData: FormData) {
   
   const projectDescription = document.getElementById(`description`);
   const fixDescription = projectDescription?.firstChild instanceof HTMLElement ? projectDescription.firstChild.innerHTML : '';
-  console.log( fixDescription );
   
   const rawFormData = {
     name: formData.get('name-of-project'),
