@@ -107,7 +107,6 @@ export async function projectAction(prevState: any, formData: FormData) {
   var pathImg = null;
   //const rawHtml = await createHtml(rawFormData, pathUrl);
   var isLoading = false;
-  console.log( rawFormData );
 
   try {
     var urlImg = await uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );

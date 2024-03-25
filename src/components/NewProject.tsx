@@ -56,8 +56,6 @@ export default function NewProject() {
         }
     };
 
-    console.log(  );
-
     
     const initialState = {
         success: false,
