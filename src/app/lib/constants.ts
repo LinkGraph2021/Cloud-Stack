@@ -37,7 +37,7 @@ export const allServers: Server[] = [
         username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
         password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
         type: 'AWS',
-        endpoint: 'https://usc1.contabostorage.com', // This seems incorrect, please adjust if necessary
+        endpoint: 'https://usc1.contabostorage.com',
         bucket_name: 'cloud-stack.searchatlas.com'
     },
 ];
