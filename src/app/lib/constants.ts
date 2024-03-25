@@ -1,6 +1,3 @@
-export const MY_CONSTANT: number = 10;
-
-
 interface Server {
     name: string;
     username: string;
@@ -13,8 +10,8 @@ interface Server {
 export const allServers: Server[] = [
     {
         name: 'Wasabi',
-        username: process.env.EXOSCALE_USERNAME!,
-        password: process.env.EXOSCALE_PASSWORD!,
+        username: process.env.WASABI_USERNAME!,
+        password: process.env.WASABI_PASSWORD!,
         type: 'wasabi',
         endpoint: 'https://s3.us-central-1.wasabisys.com',
         bucket_name: 'lg-cloud-stack'
