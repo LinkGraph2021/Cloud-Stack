@@ -10,32 +10,32 @@ interface Server {
 export const allServers: Server[] = [
     {
         name: 'Wasabi',
-        username: process.env.WASABI_USERNAME!,
-        password: process.env.WASABI_PASSWORD!,
+        username: process.env.NEXT_PUBLIC_WASABI_USERNAME!,
+        password: process.env.NEXT_PUBLIC_WASABI_PASSWORD!,
         type: 'wasabi',
         endpoint: 'https://s3.us-central-1.wasabisys.com',
         bucket_name: 'lg-cloud-stack'
     },
     {
         name: 'Exoscale',
-        username: process.env.EXOSCALE_USERNAME!,
-        password: process.env.EXOSCALE_PASSWORD!,
+        username: process.env.NEXT_PUBLIC_EXOSCALE_USERNAME!,
+        password: process.env.NEXT_PUBLIC_EXOSCALE_PASSWORD!,
         type: 'exoscale',
         endpoint: 'https://sos-de-fra-1.exo.io',
         bucket_name: 'lg-cloud-stack'
     },
     {
         name: 'Contabo',
-        username: process.env.CONTABO_USERNAME!,
-        password: process.env.CONTABO_PASSWORD!,
+        username: process.env.NEXT_PUBLIC_CONTABO_USERNAME!,
+        password: process.env.NEXT_PUBLIC_CONTABO_PASSWORD!,
         type: 'contabo',
         endpoint: 'https://usc1.contabostorage.com',
         bucket_name: 'lg-cloud-stack'
     },
     {
         name: 'AWS',
-        username: process.env.AWS_USERNAME!,
-        password: process.env.AWS_PASSWORD!,
+        username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
+        password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
         type: 'AWS',
         endpoint: 'https://usc1.contabostorage.com', // This seems incorrect, please adjust if necessary
         bucket_name: 'cloud-stack.searchatlas.com'
