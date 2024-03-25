@@ -6,6 +6,7 @@ import { downloadHtml } from '@/app/general/downloadHtml';
 import { uploadServer } from '@/app/servers/uploadServer';
 import { setProject } from  '@/app/firebase/projectsObject';
 import uploadImageToFirebase from '@/app/firebase/uploadImage';
+import { allServers } from '@/app/lib/constants';
 
  
 export async function projectAction(prevState: any, formData: FormData) {
@@ -61,6 +62,22 @@ export async function projectAction(prevState: any, formData: FormData) {
       }
     }
   }
+  console.log(allServers);
+
+  let allservers: { type: any; bucket_name:any; endpoint:any; name:any; password:any; username:any; selected: any }[] = [];
+  if( Number(allServers.length) > 0 ){
+    for(let index = 0; index < Number(allServers.length); index++){
+      allservers.push({
+        type: allServers[index]?.name,
+        bucket_name: allServers[index]?.bucket_name,
+        endpoint: allServers[index]?.endpoint,
+        name: allServers[index]?.name,
+        password: allServers[index]?.password,
+        username: allServers[index]?.username,
+        selected: formData.get(allServers[index]?.name.replaceAll(' ', '-').toLowerCase())
+      })
+    }
+  }
 
   const projectName = formData.get('name-of-project');
   const fixUrl = typeof projectName === 'string' ? projectName.replace(" ", "-").toLowerCase() : projectName;
@@ -86,11 +103,13 @@ export async function projectAction(prevState: any, formData: FormData) {
     clink: formData.get('link-company-link'),
     cname: formData.get('label-company-link'),
     hsection: hSectionT,
+    servers: allservers
   }
   var pathUrl = 'project/'+ rawFormData.name;
   var pathImg = null;
   //const rawHtml = await createHtml(rawFormData, pathUrl);
   var isLoading = false;
+  console.log( rawFormData );
 
   try {
     var urlImg = await uploadImageToFirebase( (formData.get('img-featured') as File), pathUrl );
@@ -100,7 +119,7 @@ export async function projectAction(prevState: any, formData: FormData) {
     downloadHtml(rawHtml, rawFormData.url);
     setProject( rawFormData, pathImg, pathUrl );
     await setProject( rawFormData, pathImg, pathUrl );
-    uploadServer( rawHtml, rawFormData.name, uploadURL, rawFormData.url );
+    uploadServer( rawHtml, rawFormData.servers, rawFormData.name, uploadURL, rawFormData.url );
     isLoading = true;
     return{
       success: false,
