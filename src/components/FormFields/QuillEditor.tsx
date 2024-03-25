@@ -1,7 +1,10 @@
 'use client'
 // components/QuillEditor.js
 import React, { useEffect, useRef } from 'react';
-import Quill from 'quill';
+import dynamic from 'next/dynamic';
+//import Quill from 'quill';
+
+const Quill = dynamic(() => import('quill'), { ssr: false }); // Ensure Quill is only loaded on the client side
 
 const QuillEditor = ({ defaultValue, onChange, idM, placeH }: any) => {
     const editorRef = useRef<Quill | null>(null); // Ref for Quill instance
