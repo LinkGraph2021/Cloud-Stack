@@ -16,7 +16,25 @@ const QuillEditor = ({ defaultValue, onChange, idM, placeH }: any) => {
             if (containerRef.current && !editorRef.current) {
                 const options = {
                     placeholder: placeH,
-                    theme: 'snow'
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                            ['blockquote'],
+                            ['link', 'image', 'video', 'formula'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+                            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+                            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+                            [{ 'direction': 'rtl' }],                         // text direction
+
+                            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                            [{ 'font': [] }],
+                            [{ 'align': [] }],
+
+                            ['clean'] 
+                        ]
+                    }
                 };
                 editorRef.current = new Quill(containerRef.current, options);
 
