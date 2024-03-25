@@ -12,6 +12,7 @@ export async function uploadServer(fileContent:any, stateServer: any, nameP:any,
   var numberServ = 0;
   for (const server of stateServer) {
     if( server?.selected === "on" ){
+      console.log( 'server to: ', server.name );
       try {
         data.append('username', server?.username);
         data.append('password', server?.password);
@@ -29,17 +30,19 @@ export async function uploadServer(fileContent:any, stateServer: any, nameP:any,
           },
           data: data,
         };
-        
+
         const response = await axios.request(config);
   
-        serverurls.push(response.data.url)
+        serverurls.push({
+          serverName: server?.type,
+          serverLink: response.data.url,
+        })
   
         console.log(server.type,' - ',JSON.stringify(response.data.url));
         numberServ++;
       }catch (error) {
         console.error('Error:', error);
       }
-      console.log( 'server to: ', server.name );
     }
     else{
       console.log( 'NOT server to: ', server.name );
@@ -47,8 +50,8 @@ export async function uploadServer(fileContent:any, stateServer: any, nameP:any,
   }
 
   try {
-    const washingtonRef = doc(db, "projects", nameP);
-    await updateDoc(washingtonRef, {
+    const serverRef = doc(db, "projects", nameP);
+    await updateDoc(serverRef, {
       server: serverurls
     });
     console.log(`Server Done: ${numberServ}`);
