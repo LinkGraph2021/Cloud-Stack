@@ -67,7 +67,7 @@ export async function projectAction(prevState: any, formData: FormData) {
   if( Number(allServers.length) > 0 ){
     for(let index = 0; index < Number(allServers.length); index++){
       allservers.push({
-        type: allServers[index]?.name,
+        type: allServers[index]?.type,
         bucket_name: allServers[index]?.bucket_name,
         endpoint: allServers[index]?.endpoint,
         name: allServers[index]?.name,
