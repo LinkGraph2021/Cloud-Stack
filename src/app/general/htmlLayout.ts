@@ -394,7 +394,7 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                         }
                         rawHTML += '<section id="custom-html-o">'+
                             '<div class="container">'+
-                                '<div class="sub-1">Location</div>'+
+                                '<h2 class="display-2 display-bspe-legal">Location</h2>'+
                                 '<div>'+rawFormData.location+'</div>'+
                             '</div>'+
                         '</section>'+
