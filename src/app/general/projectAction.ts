@@ -29,12 +29,16 @@ export async function projectAction(prevState: any, formData: FormData) {
   }
 
   let videoCode: { url: any; }[] = [];
+  let videTesst: any = [];
   if( Number(formData.get("videoc")) > 0 ){
     for(let index = 1; index <= Number(formData.get("videoc")); index++){
+      var YTVideo = String(formData.get("video-"+index)).replace(/(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm, 'youtube.com/embed/$3');
+      var YTVideo = YTVideo.replace(/(\&ab_channel)(=[\w]+)/gm, '?si=$2');
       if( formData.get("video-"+index) ){
         videoCode.push({
-          url: formData.get("video-"+index)
+          url: YTVideo
         });
+        console.log(YTVideo);
       }
     }
   }
@@ -116,7 +120,7 @@ export async function projectAction(prevState: any, formData: FormData) {
     downloadHtml(rawHtml, rawFormData.url);
     setProject( rawFormData, pathImg, pathUrl );
     await setProject( rawFormData, pathImg, pathUrl );
-    uploadServer( rawHtml, rawFormData.servers, rawFormData.name, uploadURL, rawFormData.url );
+    //uploadServer( rawHtml, rawFormData.servers, rawFormData.name, uploadURL, rawFormData.url );
     isLoading = true;
     return{
       success: false,
