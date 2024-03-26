@@ -38,7 +38,6 @@ export async function projectAction(prevState: any, formData: FormData) {
         videoCode.push({
           url: YTVideo
         });
-        console.log(YTVideo);
       }
     }
   }
