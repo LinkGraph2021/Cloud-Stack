@@ -8,22 +8,22 @@ interface Server {
 }
   
 export const allServers: Server[] = [
-    // {
-    //     name: 'Backblaze',
-    //     username: process.env.NEXT_PUBLIC_BACKBLZE_USERNAME!,
-    //     password: process.env.NEXT_PUBLIC_BACKBLZE_PASSWORD!,
-    //     type: 'Backblaze',
-    //     endpoint: 'https://s3.us-east-005.backblazeb2.com',
-    //     bucket_name: 'lg-cloud'
-    // },
-    // {
-    //     name: 'Azure',
-    //     username: process.env.NEXT_PUBLIC_WASABI_USERNAME!,
-    //     password: process.env.NEXT_PUBLIC_WASABI_PASSWORD!,
-    //     type: 'azure',
-    //     endpoint: 'https://s3.us-central-1.wasabisys.com',
-    //     bucket_name: 'lg-cloud-stack'
-    // },
+    {
+        name: 'Backblaze',
+        username: process.env.NEXT_PUBLIC_BACKBLZE_USERNAME!,
+        password: process.env.NEXT_PUBLIC_BACKBLZE_PASSWORD!,
+        type: 'Backblaze',
+        endpoint: 'https://s3.us-east-005.backblazeb2.com',
+        bucket_name: 'cloud-stack'
+    },
+    {
+        name: 'Azure',
+        username: process.env.NEXT_PUBLIC_WASABI_USERNAME!,
+        password: process.env.NEXT_PUBLIC_WASABI_PASSWORD!,
+        type: 'Azure',
+        endpoint: 'https://sacloudsite.blob.core.windows.net/lg-cloud-stack',
+        bucket_name: 'lg-cloud-stack'
+    },
     {
         name: 'Wasabi',
         username: process.env.NEXT_PUBLIC_WASABI_USERNAME!,
@@ -48,22 +48,22 @@ export const allServers: Server[] = [
         endpoint: 'https://usc1.contabostorage.com',
         bucket_name: 'lg-cloud-stack'
     },
-    // {
-    //     name: 'UpCloud',
-    //     username: process.env.NEXT_PUBLIC_UPCLOUD_USERNAME!,
-    //     password: process.env.NEXT_PUBLIC_UPCLOUD_PASSWORD!,
-    //     type: 'upcloud',
-    //     endpoint: 'https://4nf6s.upcloudobjects.com',
-    //     bucket_name: 'sa-upcloud'
-    // },
-    // {
-    //     name: 'Bunny',
-    //     username: process.env.NEXT_PUBLIC_BUNNY_USERNAME!,
-    //     password: process.env.NEXT_PUBLIC_BUNNY_PASSWORD!,
-    //     type: 'bunny',
-    //     endpoint: 'https://usc1.contabostorage.com',
-    //     bucket_name: 'lg-cloud-stack'
-    // },
+    {
+        name: 'UpCloud',
+        username: process.env.NEXT_PUBLIC_UPCLOUD_USERNAME!,
+        password: process.env.NEXT_PUBLIC_UPCLOUD_PASSWORD!,
+        type: 'upcloud',
+        endpoint: 'https://cloud-stack.us-nyc1.upcloudobjects.com',
+        bucket_name: 'cloud-stack'
+    },
+    {
+        name: 'Bunny',
+        username: process.env.NEXT_PUBLIC_BUNNY_USERNAME!,
+        password: process.env.NEXT_PUBLIC_BUNNY_PASSWORD!,
+        type: 'bunny',
+        endpoint: 'https://ny.storage.bunnycdn.com',
+        bucket_name: 'lg-cloud-stack'
+    },
     {
         name: 'DigitalOcean',
         username: process.env.NEXT_PUBLIC_DIGITALOCEAN_USERNAME!,
@@ -72,14 +72,14 @@ export const allServers: Server[] = [
         endpoint: 'https://lg-cloud-stack.nyc3.digitaloceanspaces.com',
         bucket_name: 'lg-cloud-stack'
     },
-    // {
-    //     name: 'AWS',
-    //     username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
-    //     password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
-    //     type: 'AWS',
-    //     endpoint: 'https://usc1.contabostorage.com',
-    //     bucket_name: 'cloud-stack.searchatlas.com'
-    // },
+    {
+        name: 'AWS',
+        username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
+        password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
+        type: 'AWS',
+        endpoint: 'https://usc1.contabostorage.com',
+        bucket_name: 'cloud-stack.searchatlas.com'
+    },
     {
         name: 'Tencent',
         username: process.env.NEXT_PUBLIC_TENCENT_USERNAME!,
