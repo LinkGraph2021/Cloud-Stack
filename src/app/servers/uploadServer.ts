@@ -40,7 +40,7 @@ export async function uploadServer(fileContent:any, stateServer: any, nameP:any,
         console.log(server.type,' - ',JSON.stringify(response.data.url));
         numberServ++;
       }catch (error) {
-        console.error('Error:', error);
+        console.error('Error on ',server.type,'- ' , error);
       }
     }
     else{
