@@ -120,7 +120,7 @@ export async function projectAction(prevState: any, formData: FormData) {
     downloadHtml(rawHtml, rawFormData.url);
     setProject( rawFormData, pathImg, pathUrl );
     await setProject( rawFormData, pathImg, pathUrl );
-    //uploadServer( rawHtml, rawFormData.servers, rawFormData.name, uploadURL, rawFormData.url );
+    uploadServer( rawHtml, rawFormData.servers, rawFormData.name, uploadURL, rawFormData.url );
     isLoading = true;
     return{
       success: false,
