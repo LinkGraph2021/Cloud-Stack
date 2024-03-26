@@ -334,7 +334,7 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                             '<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg px-0">'+
                                 '<div class="container">'+
                                     '<div class="navbar-brand">'+
-                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">'+rawFormData.name+'</a></span>'+
+                                        '<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7" href="/#">'+rawFormData.cname+'</a></span>'+
                                     '</div>'+
                                 '</div>'+
                             '</nav>'+
@@ -395,7 +395,6 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                         rawHTML += '<section id="custom-html-o">'+
                             '<div class="container">'+
                                 '<div class="sub-1">Location</div>'+
-                                '<h2 class="display-2 display-bspe-legal">BSPE Legal Marketing</h2>'+
                                 '<div>'+rawFormData.location+'</div>'+
                             '</div>'+
                         '</section>'+
