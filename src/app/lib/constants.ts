@@ -32,12 +32,12 @@ export const allServers: Server[] = [
         endpoint: 'https://usc1.contabostorage.com',
         bucket_name: 'lg-cloud-stack'
     },
-    {
-        name: 'AWS',
-        username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
-        password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
-        type: 'AWS',
-        endpoint: 'https://usc1.contabostorage.com',
-        bucket_name: 'cloud-stack.searchatlas.com'
-    },
+    // {
+    //     name: 'AWS',
+    //     username: process.env.NEXT_PUBLIC_AWS_USERNAME!,
+    //     password: process.env.NEXT_PUBLIC_AWS_PASSWORD!,
+    //     type: 'AWS',
+    //     endpoint: 'https://usc1.contabostorage.com',
+    //     bucket_name: 'cloud-stack.searchatlas.com'
+    // },
 ];
