@@ -518,7 +518,7 @@ export async function htmlLayout(rawFormData:any, pathImg:any) {
                 '}'+
                 '#accordion_2 .card.activeCard .panel-body {'+
                     'padding: 0.75rem 1.25rem;'+
-                    'max-height: 1000px;'+
+                    'max-height: 100000px;'+
                 '}'+
                 '</style>'+
             '</body>'+
